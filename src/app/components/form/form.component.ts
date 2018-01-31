@@ -5,18 +5,21 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { FlashMessagesService } from 'ngx-flash-messages';
 
+import { AccountOptions } from '../../models/AccountOptions';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit, OnChanges {
-  accountOptions: any;
+  accountOptions: AccountOptions;
+  public loading = false;
 
   @Input() formDefault: any;
   editDataForm: FormGroup;
 
-  @Output() dataEdited = new EventEmitter<any>();
+  @Output() dataEdited = new EventEmitter<AccountOptions>();
 
   constructor(
     public dataService: DataService,
@@ -28,9 +31,11 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.dataService.getData().subscribe(accountOptions => {
+    this.loading = true;
+    this.dataService.getData().subscribe(res => {
       // Get data from the service
-      this.accountOptions = accountOptions.accountOptions;
+      this.accountOptions = res.accountOptions;
+      this.loading = false;
       console.log(this.accountOptions);
 
       // Patch data to the form
@@ -72,16 +77,19 @@ export class FormComponent implements OnInit, OnChanges {
 
   // Submit form value
   onEditSubmit() {
+    this.loading = true;
     this.dataEdited.emit(this.editDataForm.value);
     const value = this.editDataForm.value;
     console.log(value);
     this.dataService.editData(JSON.stringify(value)).subscribe(res => {
       console.log(res);
       if (res.errorCode === 0) {
-        this.flashMessagesService.show(res.statusReason, { classes: ['alert', 'alert-success'], timeout: 5000 });
+        this.flashMessagesService.show(res.statusReason, { classes: ['alert', 'alert-success'], timeout: 4000 });
         this.router.navigate(['/readonly']);
+        this.loading = false;
       } else {
-        this.flashMessagesService.show(`${res.errorMessage}: ${res.errorDetails}`, { classes: ['alert', 'alert-danger'], timeout: 7000 });
+        this.flashMessagesService.show(`${res.errorMessage}: ${res.errorDetails}`, { classes: ['alert', 'alert-danger'], timeout: 4000 });
+        this.loading = false;
       }
     });
   }

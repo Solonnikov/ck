@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { FlashMessagesModule } from 'ngx-flash-messages';
+import { LoadingModule } from 'ngx-loading';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -26,6 +27,7 @@ import { ReadonlyComponent } from './components/readonly/readonly.component';
     HttpClientModule,
     HttpClientJsonpModule,
     FlashMessagesModule,
+    LoadingModule,
     RouterModule.forRoot([
       { path: '', component: FormComponent },
       { path: 'readonly', component: ReadonlyComponent }
