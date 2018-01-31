@@ -76,14 +76,18 @@ export class FormComponent implements OnInit, OnChanges {
   // Submit form value
   onEditSubmit() {
     this.dataEdited.emit(this.editDataForm.value);
-    const value = this.editDataForm.value;
+    let value = this.editDataForm.value;
+    value.loginIdentifiers = String(value.loginIdentifiers);
     console.log(value);
-    this.dataService.editData(value).subscribe(() => {
-      // this.flashMessagesService.show('Hours successfully added', { classes: ['alert', 'alert-success'] });
+    value.loginIdentifiers = 'email, username, providerEmail';
+    this.dataService.editData(JSON.stringify(value)).subscribe(res => {
+      console.log(res);
+      this.flashMessagesService.show(res.statusReason, { classes: ['alert', 'alert-success'] });
     },
       err => {
         console.log(err);
-        // this.flashMessagesService.show(err.statusText, { classes: ['alert', 'alert-danger'] });
+        this.flashMessagesService.show(err.statusText, { classes: ['alert', 'alert-danger'] });
       });
   }
 }
+
