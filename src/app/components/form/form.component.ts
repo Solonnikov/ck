@@ -28,6 +28,16 @@ export class FormComponent implements OnInit, OnChanges {
     public router: Router
   ) {
     this.createForm();
+
+    // Listening for from fields changing
+    this.editDataForm.controls['verifyEmail'].valueChanges.subscribe(verifyEmail => {
+      if (verifyEmail === true) {
+        this.editDataForm.get('allowUnverifiedLogin').enable();
+      } else if(verifyEmail === false) {
+        this.editDataForm.get('allowUnverifiedLogin').setValue(false);
+        this.editDataForm.get('allowUnverifiedLogin').disable();
+      }
+    });
   }
 
   ngOnInit() {
@@ -63,15 +73,15 @@ export class FormComponent implements OnInit, OnChanges {
   // Creating the form
   createForm(): void {
     this.editDataForm = this.fb.group({
-      allowUnverifiedLogin: ['', Validators.required],
-      defaultLanguage: ['', Validators.required],
+      allowUnverifiedLogin: [{value: false, disabled: true}, Validators.required],
+      defaultLanguage: ['en', Validators.required],
       loginIdentifierConflict: ['', Validators.required],
-      loginIdentifiers: ['', Validators.required],
-      preventLoginIDHarvesting: ['', Validators.required],
-      sendAccountDeletedEmail: ['', Validators.required],
-      sendWelcomeEmail: ['', Validators.required],
-      verifyEmail: ['', Validators.required],
-      verifyProviderEmail: ['', Validators.required]
+      loginIdentifiers: ['email', Validators.required],
+      preventLoginIDHarvesting: [false, Validators.required],
+      sendAccountDeletedEmail: [false, Validators.required],
+      sendWelcomeEmail: [true, Validators.required],
+      verifyEmail: [false, Validators.required],
+      verifyProviderEmail: [false, Validators.required]
     });
   }
 
@@ -79,13 +89,14 @@ export class FormComponent implements OnInit, OnChanges {
   onEditSubmit() {
     this.loading = true;
     this.dataEdited.emit(this.editDataForm.value);
-    const value = this.editDataForm.value;
+    // Gets values including disabled fields
+    const value = this.editDataForm.getRawValue();
     console.log(value);
     this.dataService.editData(JSON.stringify(value)).subscribe(res => {
       console.log(res);
       if (res.errorCode === 0) {
-        this.flashMessagesService.show(res.statusReason, { classes: ['alert', 'alert-success'], timeout: 4000 });
-        this.router.navigate(['/readonly']);
+        this.flashMessagesService.show('Data successfully submitted', { classes: ['alert', 'alert-success'], timeout: 4000 });
+        // this.router.navigate(['/readonly']);
         this.loading = false;
       } else {
         this.flashMessagesService.show(`${res.errorMessage}: ${res.errorDetails}`, { classes: ['alert', 'alert-danger'], timeout: 4000 });

@@ -62,7 +62,7 @@ export class ReadonlyComponent implements OnInit, OnChanges {
   // Creating the form
   createForm(): void {
     this.editDataForm = this.fb.group({
-      allowUnverifiedLogin: [{ value: '', disabled: true }, Validators.required],
+      allowUnverifiedLogin: [{ value: false, disabled: true }, Validators.required],
       defaultLanguage: [{ value: '', disabled: true }, Validators.required],
       loginIdentifierConflict: [{ value: '', disabled: true }, Validators.required],
       loginIdentifiers: [{ value: '', disabled: true }, Validators.required],
