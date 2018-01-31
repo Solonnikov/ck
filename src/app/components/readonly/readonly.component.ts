@@ -6,11 +6,11 @@ import { DataService } from '../../services/data.service';
 import { FlashMessagesService } from 'ngx-flash-messages';
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  selector: 'app-readonly',
+  templateUrl: './readonly.component.html',
+  styleUrls: ['./readonly.component.css']
 })
-export class FormComponent implements OnInit, OnChanges {
+export class ReadonlyComponent implements OnInit, OnChanges {
   accountOptions: any;
 
   @Input() formDefault: any;
@@ -21,8 +21,7 @@ export class FormComponent implements OnInit, OnChanges {
   constructor(
     public dataService: DataService,
     public flashMessagesService: FlashMessagesService,
-    public fb: FormBuilder,
-    public router: Router
+    public fb: FormBuilder
   ) {
     this.createForm();
   }
@@ -58,32 +57,15 @@ export class FormComponent implements OnInit, OnChanges {
   // Creating the form
   createForm(): void {
     this.editDataForm = this.fb.group({
-      allowUnverifiedLogin: ['', Validators.required],
-      defaultLanguage: ['', Validators.required],
-      loginIdentifierConflict: ['', Validators.required],
-      loginIdentifiers: ['', Validators.required],
-      preventLoginIDHarvesting: ['', Validators.required],
-      sendAccountDeletedEmail: ['', Validators.required],
-      sendWelcomeEmail: ['', Validators.required],
-      verifyEmail: ['', Validators.required],
-      verifyProviderEmail: ['', Validators.required]
-    });
-  }
-
-  // Submit form value
-  onEditSubmit() {
-    this.dataEdited.emit(this.editDataForm.value);
-    const value = this.editDataForm.value;
-    console.log(value);
-    this.dataService.editData(JSON.stringify(value)).subscribe(res => {
-      console.log(res);
-      if (res.errorCode === 0) {
-        this.flashMessagesService.show(res.statusReason, { classes: ['alert', 'alert-success'], timeout: 5000 });
-        this.router.navigate(['/readonly']);
-      } else {
-        this.flashMessagesService.show(`${res.errorMessage}: ${res.errorDetails}`, { classes: ['alert', 'alert-danger'], timeout: 7000 });
-      }
+      allowUnverifiedLogin: [{value: '', disabled: true}, Validators.required],
+      defaultLanguage: [{value: '', disabled: true}, Validators.required],
+      loginIdentifierConflict: [{value: '', disabled: true}, Validators.required],
+      loginIdentifiers: [{value: '', disabled: true}, Validators.required],
+      preventLoginIDHarvesting: [{value: '', disabled: true}, Validators.required],
+      sendAccountDeletedEmail: [{value: '', disabled: true}, Validators.required],
+      sendWelcomeEmail: [{value: '', disabled: true}, Validators.required],
+      verifyEmail: [{value: '', disabled: true}, Validators.required],
+      verifyProviderEmail: [{value: '', disabled: true}, Validators.required],
     });
   }
 }
-

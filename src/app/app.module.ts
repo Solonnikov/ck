@@ -10,12 +10,14 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FormComponent } from './components/form/form.component';
 
 import { DataService } from './services/data.service';
+import { ReadonlyComponent } from './components/readonly/readonly.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    FormComponent
+    FormComponent,
+    ReadonlyComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,8 @@ import { DataService } from './services/data.service';
     HttpClientJsonpModule,
     FlashMessagesModule,
     RouterModule.forRoot([
-      { path: '', component: FormComponent }
+      { path: '', component: FormComponent },
+      { path: 'readonly', component: ReadonlyComponent }
     ])
   ],
   providers: [DataService],

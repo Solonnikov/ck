@@ -17,24 +17,28 @@
             <div class="form-group">
               <label for="loginIdentifiers">Login Identifiers</label>
               <select class="form-control mb-3" id="loginIdentifiers" formControlName="loginIdentifiers" [ngClass]="{'is-valid': editDataForm.get('loginIdentifiers').valid,
-                   'is-invalid': editDataForm.get('loginIdentifiers').invalid && editDataForm.get('loginIdentifiers').untouched}">
+                   'is-invalid': editDataForm.get('loginIdentifiers').invalid && editDataForm.get('loginIdentifiers').touched}">
                 <div class="invalid-feedback" *ngIf="editDataForm.get('loginIdentifiers').hasError('required') && editDataForm.get('loginIdentifiers').touched">
                   This field is required
                 </div>
                 <option value="" disabled selected>Login Identifiers</option>
-                <option *ngFor="let loginIdentifier of loginIdentifiersArray">{{loginIdentifier}}</option>
-                <!-- <option>{{loginIdentifiersArray[0]}}</option>
-                <option>{{loginIdentifiersArray[1]}}</option> -->
+                <option>email</option>
+                <option>username</option>
+                <option>email, username</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="loginIdentifierConflict">Login Identifier Conflict</label>
-              <input type="text" class="form-control" id="loginIdentifierConflict" placeholder="Default Language" formControlName="loginIdentifierConflict"
-                [ngClass]="{'is-valid': editDataForm.get('loginIdentifierConflict').valid,
-        'is-invalid': editDataForm.get('loginIdentifierConflict').invalid && editDataForm.get('loginIdentifierConflict').touched}">
-              <div class="invalid-feedback" *ngIf="editDataForm.get('loginIdentifierConflict').hasError('required') && editDataForm.get('loginIdentifierConflict').touched">
-                This field is required
-              </div>
+              <label for="loginIdentifierConflict">Login Identifiers Conflict</label>
+              <select class="form-control mb-3" id="loginIdentifierConflict" formControlName="loginIdentifierConflict" [ngClass]="{'is-valid': editDataForm.get('loginIdentifierConflict').valid,
+                     'is-invalid': editDataForm.get('loginIdentifierConflict').invalid && editDataForm.get('loginIdentifierConflict').untouched}">
+                <div class="invalid-feedback" *ngIf="editDataForm.get('loginIdentifierConflict').hasError('required') && editDataForm.get('loginIdentifierConflict').touched">
+                  This field is required
+                </div>
+                <option value="" disabled selected>Login Identifier Conflict</option>
+                <option>ignore</option>
+                <option>failOnSiteConflictingIdentity</option>
+                <option>failOnAnyConflictingIdentity</option>
+              </select>
             </div>
             <div class="form-group">
               <div class="form-check">
