@@ -16,7 +16,7 @@ export class ReadonlyComponent implements OnInit, OnChanges {
   accountOptions: AccountOptions;
   public loading = false;
 
-  @Input() formDefault: any;
+  @Input() formDefault: AccountOptions;
   editDataForm: FormGroup;
 
   @Output() dataEdited = new EventEmitter<AccountOptions>();

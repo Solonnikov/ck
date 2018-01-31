@@ -14,9 +14,10 @@ import { AccountOptions } from '../../models/AccountOptions';
 })
 export class FormComponent implements OnInit, OnChanges {
   accountOptions: AccountOptions;
+  res: any;
   public loading = false;
 
-  @Input() formDefault: any;
+  @Input() formDefault: AccountOptions;
   editDataForm: FormGroup;
 
   @Output() dataEdited = new EventEmitter<AccountOptions>();
@@ -29,13 +30,16 @@ export class FormComponent implements OnInit, OnChanges {
   ) {
     this.createForm();
 
-    // Listening for from fields changing
+    // Listening for form fields changing
     this.editDataForm.controls['verifyEmail'].valueChanges.subscribe(verifyEmail => {
       if (verifyEmail === true) {
         this.editDataForm.get('allowUnverifiedLogin').enable();
-      } else if(verifyEmail === false) {
+        this.editDataForm.get('verifyProviderEmail').enable();
+      } else if (verifyEmail === false) {
         this.editDataForm.get('allowUnverifiedLogin').setValue(false);
         this.editDataForm.get('allowUnverifiedLogin').disable();
+        this.editDataForm.get('verifyProviderEmail').setValue(false);
+        this.editDataForm.get('verifyProviderEmail').disable();
       }
     });
   }
@@ -45,8 +49,17 @@ export class FormComponent implements OnInit, OnChanges {
     this.dataService.getData().subscribe(res => {
       // Get data from the service
       this.accountOptions = res.accountOptions;
+      this.res = res;
       this.loading = false;
+      console.log(this.res);
       console.log(this.accountOptions);
+
+      // Check for accountDeletedEmailTemplates field in emailNotifications to disable sendAccountDeletedEmail form field
+      if (this.res.emailNotifications.accountDeletedEmailTemplates === undefined) {
+        this.editDataForm.get('sendAccountDeletedEmail').disable();
+      } else {
+        this.editDataForm.get('sendAccountDeletedEmail').enable();
+      }
 
       // Patch data to the form
       this.editDataForm.patchValue({
@@ -72,14 +85,15 @@ export class FormComponent implements OnInit, OnChanges {
 
   // Creating the form
   createForm(): void {
+    const defaultLanguageRegex: any = '([a-zA-Z])+';
     this.editDataForm = this.fb.group({
-      allowUnverifiedLogin: [{value: false, disabled: true}, Validators.required],
-      defaultLanguage: ['en', Validators.required],
+      allowUnverifiedLogin: [{ value: false, disabled: true }, Validators.required],
+      defaultLanguage: ['en', Validators.compose([Validators.required, Validators.pattern(defaultLanguageRegex)])],
       loginIdentifierConflict: ['', Validators.required],
       loginIdentifiers: ['email', Validators.required],
       preventLoginIDHarvesting: [false, Validators.required],
       sendAccountDeletedEmail: [false, Validators.required],
-      sendWelcomeEmail: [true, Validators.required],
+      sendWelcomeEmail: [false, Validators.required],
       verifyEmail: [false, Validators.required],
       verifyProviderEmail: [false, Validators.required]
     });
@@ -89,6 +103,7 @@ export class FormComponent implements OnInit, OnChanges {
   onEditSubmit() {
     this.loading = true;
     this.dataEdited.emit(this.editDataForm.value);
+
     // Gets values including disabled fields
     const value = this.editDataForm.getRawValue();
     console.log(value);
@@ -99,7 +114,7 @@ export class FormComponent implements OnInit, OnChanges {
         // this.router.navigate(['/readonly']);
         this.loading = false;
       } else {
-        this.flashMessagesService.show(`${res.errorMessage}: ${res.errorDetails}`, { classes: ['alert', 'alert-danger'], timeout: 4000 });
+        this.flashMessagesService.show(`${res.errorMessage}: ${res.errorDetails}`, { classes: ['alert', 'alert-danger'], timeout: 14000 });
         this.loading = false;
       }
     });
