@@ -55,11 +55,11 @@ export class FormComponent implements OnInit, OnChanges {
       console.log(this.accountOptions);
 
       // Check for accountDeletedEmailTemplates field in emailNotifications to disable sendAccountDeletedEmail form field
-      if (this.res.emailNotifications.accountDeletedEmailTemplates === undefined) {
-        this.editDataForm.get('sendAccountDeletedEmail').disable();
-      } else {
-        this.editDataForm.get('sendAccountDeletedEmail').enable();
-      }
+      // if (this.res.emailNotifications.accountDeletedEmailTemplates === undefined) {
+      //   this.editDataForm.get('sendAccountDeletedEmail').disable();
+      // } else {
+      //   this.editDataForm.get('sendAccountDeletedEmail').enable();
+      // }
 
       // Patch data to the form
       this.editDataForm.patchValue({
@@ -87,7 +87,7 @@ export class FormComponent implements OnInit, OnChanges {
   createForm(): void {
     const defaultLanguageRegex: any = '([a-zA-Z])+';
     this.editDataForm = this.fb.group({
-      allowUnverifiedLogin: [{ value: false, disabled: true }, Validators.required],
+      allowUnverifiedLogin: [{ value: false, disabled: true }],
       defaultLanguage: ['en', Validators.compose([Validators.required, Validators.pattern(defaultLanguageRegex)])],
       loginIdentifierConflict: ['', Validators.required],
       loginIdentifiers: ['email', Validators.required],
@@ -111,10 +111,10 @@ export class FormComponent implements OnInit, OnChanges {
       console.log(res);
       if (res.errorCode === 0) {
         this.flashMessagesService.show('Data successfully submitted', { classes: ['alert', 'alert-success'], timeout: 4000 });
-        // this.router.navigate(['/readonly']);
+        this.router.navigate(['/readonly']);
         this.loading = false;
       } else {
-        this.flashMessagesService.show(`${res.errorMessage}: ${res.errorDetails}`, { classes: ['alert', 'alert-danger'], timeout: 14000 });
+        this.flashMessagesService.show(`${res.errorMessage}: ${res.errorDetails}`, { classes: ['alert', 'alert-danger'], timeout: 4000 });
         this.loading = false;
       }
     });
