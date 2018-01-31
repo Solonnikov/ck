@@ -19,7 +19,7 @@ export class DataService {
       .map(res => res);
   }
 
-  editData(value: any): Observable<any> {
+  updateData(value: any): Observable<any> {
     const accountOptions = value;
     return this.http.jsonp(`${this.accounts.setPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&accountOptions=${accountOptions}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK')
       .map(res => res);

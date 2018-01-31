@@ -54,13 +54,6 @@ export class FormComponent implements OnInit, OnChanges {
       console.log(this.res);
       console.log(this.accountOptions);
 
-      // Check for accountDeletedEmailTemplates field in emailNotifications to disable sendAccountDeletedEmail form field
-      // if (this.res.emailNotifications.accountDeletedEmailTemplates === undefined) {
-      //   this.editDataForm.get('sendAccountDeletedEmail').disable();
-      // } else {
-      //   this.editDataForm.get('sendAccountDeletedEmail').enable();
-      // }
-
       // Patch data to the form
       this.editDataForm.patchValue({
         allowUnverifiedLogin: this.accountOptions.allowUnverifiedLogin,
@@ -107,7 +100,7 @@ export class FormComponent implements OnInit, OnChanges {
     // Gets values including disabled fields
     const value = this.editDataForm.getRawValue();
     console.log(value);
-    this.dataService.editData(JSON.stringify(value)).subscribe(res => {
+    this.dataService.updateData(JSON.stringify(value)).subscribe(res => {
       console.log(res);
       if (res.errorCode === 0) {
         this.flashMessagesService.show('Data successfully submitted', { classes: ['alert', 'alert-success'], timeout: 4000 });
