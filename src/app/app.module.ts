@@ -14,14 +14,16 @@ import { FormComponent } from './components/form/form.component';
 import { DataService } from './services/data.service';
 import { ReadonlyComponent } from './components/readonly/readonly.component';
 
-import { IAppState, rootReducer, INITIAL_STATE } from './store';
+import { AccountOptions, rootReducer, INITIAL_STATE } from './store';
+import { FormReduxComponent } from './components/form-redux/form-redux.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FormComponent,
-    ReadonlyComponent
+    ReadonlyComponent,
+    FormReduxComponent
   ],
   imports: [
     BrowserModule,
@@ -34,14 +36,17 @@ import { IAppState, rootReducer, INITIAL_STATE } from './store';
     NgReduxModule,
     RouterModule.forRoot([
       { path: '', component: FormComponent },
-      { path: 'readonly', component: ReadonlyComponent }
+      { path: 'readonly', component: ReadonlyComponent },
+      { path: 'form-redux', component: FormReduxComponent }
     ])
   ],
   providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(ngRedux: NgRedux<IAppState>) {
+  constructor(
+    ngRedux: NgRedux<AccountOptions>
+  ) {
     ngRedux.configureStore(rootReducer, INITIAL_STATE);
   }
 }

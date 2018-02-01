@@ -1,0 +1,38 @@
+<section id="form-redux">
+  <div class="container p-4">
+    <h3 class="text-center">Account Options</h3>
+    <p class="text-center">
+      <i>(Redux Implementation)</i>
+    </p>
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <ul class="list-group">
+          <li class="list-group-item">
+            {{allowUnverifiedLogin | async}}
+          </li>
+          <li class="list-group-item">
+            {{loginIdentifierConflict | async}}
+          </li>
+          <li class="list-group-item">
+            {{loginIdentifiers | async}}
+          </li>
+          <li class="list-group-item">
+            {{preventLoginIDHarvesting | async}}
+          </li>
+          <li class="list-group-item">
+            {{sendAccountDeletedEmail | async}}
+          </li>
+          <li class="list-group-item">
+            {{sendWelcomeEmail | async}}
+          </li>
+          <li class="list-group-item">
+            {{verifyEmail | async}}
+          </li>
+          <li class="list-group-item">
+            {{verifyProviderEmail | async}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

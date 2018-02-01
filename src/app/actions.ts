@@ -1,1 +1,2 @@
-export const INCREMENT = 'INCREMENT';
+export const GET = 'GET';
+export const UPDATE = 'UPDATE';
