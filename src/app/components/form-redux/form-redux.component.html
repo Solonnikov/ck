@@ -7,105 +7,78 @@
     <div class="row">
       <div class="col-md-6 mx-auto">
         <div class="card card-body">
-          <form (ngSubmit)="onEditSubmit()" connect="editDataForm" [formGroup]="editDataForm" id="editDataForm">
-            <div class="form-group">
-              <label for="defaultLanguage">Default Language</label>
-              <input type="text" class="form-control" name="defaultLanguage" id="defaultLanguage" placeholder="Default Language" formControlName="defaultLanguage"
-                [ngClass]="{'is-valid': editDataForm.get('defaultLanguage').valid,
-              'is-invalid': editDataForm.get('defaultLanguage').invalid && editDataForm.get('defaultLanguage').touched}">
-              <div class="invalid-feedback" *ngIf="editDataForm.get('defaultLanguage').hasError('required') && editDataForm.get('defaultLanguage').touched">
-                This field is required
+          <div *ngIf="editDataForm | async as form">
+            <form (ngSubmit)="onEditSubmit()" #editDataForm="ngForm">
+              <div class="form-group">
+                <label for="defaultLanguage">Default Language</label>
+                <input type="text" class="form-control" required [(ngModel)]="form.defaultLanguage" name="defaultLanguage" #defaultLanguage="ngModel"
+                  placeholder="Default Language">
               </div>
-              <div class="invalid-feedback" *ngIf="editDataForm.get('defaultLanguage').touched && editDataForm.get('defaultLanguage').hasError('pattern')">
-                Digits and special characters are not alowed
+              <div class="form-group">
+                <label for="loginIdentifierConflict">Login Identifier Conflict</label>
+                <select class="form-control" required [(ngModel)]="form.loginIdentifierConflict" name="loginIdentifierConflict" #loginIdentifierConflict="ngModel">
+                  <option value="Login Identifier Conflict" disabled selected>Login Identifier Conflict</option>
+                  <option>ignore</option>
+                  <option>failOnSiteConflictingIdentity</option>
+                  <option>failOnAnyConflictingIdentity</option>
+                </select>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="loginIdentifiers">Login Identifiers</label>
-              <select class="form-control mb-3" name="loginIdentifiers" id="loginIdentifiers" formControlName="loginIdentifiers" [ngClass]="{'is-valid': editDataForm.get('loginIdentifiers').valid,
-                           'is-invalid': editDataForm.get('loginIdentifiers').invalid && editDataForm.get('loginIdentifiers').touched}">
-                <div class="invalid-feedback" *ngIf="editDataForm.get('loginIdentifiers').hasError('required') && editDataForm.get('loginIdentifiers').touched">
-                  This field is required
-                </div>
-                <option value="" disabled selected>Login Identifiers</option>
-                <option>email</option>
-                <option>username</option>
-                <option>email, username</option>
-                <option>providerEmail</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="loginIdentifierConflict">Login Identifiers Conflict</label>
-              <select class="form-control mb-3" name="loginIdentifierConflict" id="loginIdentifierConflict" formControlName="loginIdentifierConflict"
-                [ngClass]="{'is-valid': editDataForm.get('loginIdentifierConflict').valid,
-                             'is-invalid': editDataForm.get('loginIdentifierConflict').invalid && editDataForm.get('loginIdentifierConflict').untouched}">
-                <div class="invalid-feedback" *ngIf="editDataForm.get('loginIdentifierConflict').hasError('required') && editDataForm.get('loginIdentifierConflict').touched">
-                  This field is required
-                </div>
-                <option value="" disabled selected>Login Identifier Conflict</option>
-                <option>ignore</option>
-                <option>failOnSiteConflictingIdentity</option>
-                <option>failOnAnyConflictingIdentity</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" name="verifyEmail" type="checkbox" id="verifyEmail" formControlName="verifyEmail">
-                <label class="form-check-label" for="verifyEmail">Verify Email</label>
-                <div class="invalid-feedback" *ngIf="editDataForm.get('verifyEmail').hasError('required') && editDataForm.get('verifyEmail').touched">
-                  This field is required
+              <div class="form-group">
+                <label for="loginIdentifiers">Login Identifiers</label>
+                <select type="text" class="form-control" required [(ngModel)]="form.loginIdentifiers" name="loginIdentifiers" #loginIdentifiers="ngModel"
+                  placeholder="Login Identifiers">
+                  <option value="Login Identifiers" disabled selected>Login Identifiers</option>
+                  <option>email</option>
+                  <option>username</option>
+                  <option>email, username</option>
+                  <option>providerEmail</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" required [(ngModel)]="form.verifyEmail" #verifyEmail="ngModel" name="verifyEmail" type="checkbox"
+                    id="verifyEmail">
+                  <label class="form-check-label" for="verifyEmail">Verify Email</label>
                 </div>
               </div>
-            </div>
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" name="allowUnverifiedLogin" type="checkbox" id="allowUnverifiedLogin" formControlName="allowUnverifiedLogin">
-                <label class="form-check-label" for="allowUnverifiedLogin">Allow Unverified Login</label>
-                <div class="invalid-feedback" *ngIf="editDataForm.get('allowUnverifiedLogin').hasError('required') && editDataForm.get('allowUnverifiedLogin').touched">
-                  This field is required
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" required [(ngModel)]="form.allowUnverifiedLogin" #allowUnverifiedLogin="ngModel" name="allowUnverifiedLogin"
+                    type="checkbox" id="allowUnverifiedLogin">
+                  <label class="form-check-label" for="allowUnverifiedLogin">Allow Unverified Login</label>
                 </div>
               </div>
-            </div>
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" name="preventLoginIDHarvesting" type="checkbox" id="preventLoginIDHarvesting" formControlName="preventLoginIDHarvesting">
-                <label class="form-check-label" for="preventLoginIDHarvesting">Prevent Login ID Harvesting</label>
-                <div class="invalid-feedback" *ngIf="editDataForm.get('preventLoginIDHarvesting').hasError('required') && editDataForm.get('preventLoginIDHarvesting').touched">
-                  This field is required
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" required [(ngModel)]="form.preventLoginIDHarvesting" #preventLoginIDHarvesting="ngModel"
+                    name="preventLoginIDHarvesting" type="checkbox" id="preventLoginIDHarvesting">
+                  <label class="form-check-label" for="preventLoginIDHarvesting">Prevent Login ID Harvesting</label>
                 </div>
               </div>
-            </div>
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" name="sendAccountDeletedEmail" type="checkbox" id="sendAccountDeletedEmail" formControlName="sendAccountDeletedEmail">
-                <label class="form-check-label" for="sendAccountDeletedEmail">Send Account Deleted Email</label>
-                <div class="invalid-feedback" *ngIf="editDataForm.get('sendAccountDeletedEmail').hasError('required') && editDataForm.get('sendAccountDeletedEmail').touched">
-                  This field is required
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" required [(ngModel)]="form.sendAccountDeletedEmail" #sendAccountDeletedEmail="ngModel" name="sendAccountDeletedEmail"
+                    type="checkbox" id="sendAccountDeletedEmail">
+                  <label class="form-check-label" for="sendAccountDeletedEmail">Send Account Deleted Email</label>
                 </div>
               </div>
-            </div>
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" name="sendWelcomeEmail" type="checkbox" id="sendWelcomeEmail" formControlName="sendWelcomeEmail">
-                <label class="form-check-label" for="sendWelcomeEmail">Send Welcome Email</label>
-                <div class="invalid-feedback" *ngIf="editDataForm.get('sendWelcomeEmail').hasError('required') && editDataForm.get('sendWelcomeEmail').touched">
-                  This field is required
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" required [(ngModel)]="form.sendWelcomeEmail" #sendWelcomeEmail="ngModel" name="sendWelcomeEmail"
+                    type="checkbox" id="sendWelcomeEmail">
+                  <label class="form-check-label" for="sendWelcomeEmail">Send Welcome Email</label>
                 </div>
               </div>
-            </div>
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" name="verifyProviderEmail" type="checkbox" id="verifyProviderEmail" formControlName="verifyProviderEmail">
-                <label class="form-check-label" for="verifyProviderEmail">Verify Provider Email</label>
-                <div class="invalid-feedback" *ngIf="editDataForm.get('verifyProviderEmail').hasError('required') && editDataForm.get('verifyProviderEmail').touched">
-                  This field is required
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" required [(ngModel)]="form.verifyProviderEmail" #verifyProviderEmail="ngModel" name="verifyProviderEmail"
+                    type="checkbox" id="verifyProviderEmail">
+                  <label class="form-check-label" for="verifyProviderEmail">Verify Provider Email</label>
                 </div>
               </div>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-success btn-block">Submit</button>
-            </div>
-          </form>
+              <button type="submit" class="btn btn-success btn-block" [disabled]="!editDataForm.form.valid">Submit</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
