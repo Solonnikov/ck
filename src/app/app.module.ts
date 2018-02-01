@@ -6,6 +6,7 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { FlashMessagesModule } from 'ngx-flash-messages';
 import { LoadingModule } from 'ngx-loading';
 import { NgReduxModule, NgRedux } from '@angular-redux/store';
+import { NgReduxFormModule } from '@angular-redux/form';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -34,6 +35,7 @@ import { FormReduxComponent } from './components/form-redux/form-redux.component
     FlashMessagesModule,
     LoadingModule,
     NgReduxModule,
+    NgReduxFormModule,
     RouterModule.forRoot([
       { path: '', component: FormComponent },
       { path: 'readonly', component: ReadonlyComponent },
