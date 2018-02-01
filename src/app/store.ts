@@ -1,15 +1,6 @@
 import { GET, UPDATE } from './actions';
 
-export interface AccountOptions {
-  // allowUnverifiedLogin: boolean;
-  // defaultLanguage: string
-  // loginIdentifierConflict: string
-  // loginIdentifiers: string
-  // preventLoginIDHarvesting: boolean
-  // sendAccountDeletedEmail: boolean
-  // sendWelcomeEmail: boolean
-  // verifyEmail: boolean
-  // verifyProviderEmail: boolean,
+export interface IAppState {
   editDataForm: {
     allowUnverifiedLogin: boolean;
     defaultLanguage: string
@@ -23,16 +14,7 @@ export interface AccountOptions {
   }
 }
 
-export const INITIAL_STATE: AccountOptions = {
-  // allowUnverifiedLogin: false,
-  // defaultLanguage: 'en',
-  // loginIdentifierConflict: 'ignore',
-  // loginIdentifiers: 'email',
-  // preventLoginIDHarvesting: false,
-  // sendAccountDeletedEmail: false,
-  // sendWelcomeEmail: false,
-  // verifyEmail: false,
-  // verifyProviderEmail: false,
+export const INITIAL_STATE: IAppState = {
   editDataForm: {
     allowUnverifiedLogin: false,
     defaultLanguage: 'en',
@@ -46,20 +28,14 @@ export const INITIAL_STATE: AccountOptions = {
   }
 }
 
-export function rootReducer(state: AccountOptions, action): AccountOptions {
+export function rootReducer(state: IAppState, action): IAppState {
   switch (action.type) {
     case GET: return {
-      // allowUnverifiedLogin: state.allowUnverifiedLogin,
-      // defaultLanguage: state.defaultLanguage,
-      // loginIdentifierConflict: state.loginIdentifierConflict,
-      // loginIdentifiers: state.loginIdentifiers,
-      // preventLoginIDHarvesting: state.preventLoginIDHarvesting,
-      // sendAccountDeletedEmail: state.sendAccountDeletedEmail,
-      // sendWelcomeEmail: state.sendWelcomeEmail,
-      // verifyEmail: state.verifyEmail,
-      // verifyProviderEmail: state.verifyProviderEmail,
       editDataForm: state.editDataForm
     }
+    case UPDATE:
+      console.log(action.payload);
+      return { ...state, [action.payload.path]: action.payload.value }
   }
   return state;
 }

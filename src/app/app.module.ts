@@ -15,7 +15,7 @@ import { FormComponent } from './components/form/form.component';
 import { DataService } from './services/data.service';
 import { ReadonlyComponent } from './components/readonly/readonly.component';
 
-import { AccountOptions, rootReducer, INITIAL_STATE } from './store';
+import { IAppState, rootReducer, INITIAL_STATE } from './store';
 import { FormReduxComponent } from './components/form-redux/form-redux.component';
 
 @NgModule({
@@ -47,7 +47,7 @@ import { FormReduxComponent } from './components/form-redux/form-redux.component
 })
 export class AppModule {
   constructor(
-    ngRedux: NgRedux<AccountOptions>
+    ngRedux: NgRedux<IAppState>
   ) {
     ngRedux.configureStore(rootReducer, INITIAL_STATE);
   }

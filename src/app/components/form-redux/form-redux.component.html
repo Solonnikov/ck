@@ -10,7 +10,7 @@
           <form (ngSubmit)="onEditSubmit()" connect="editDataForm" [formGroup]="editDataForm" id="editDataForm">
             <div class="form-group">
               <label for="defaultLanguage">Default Language</label>
-              <input type="text" class="form-control" id="defaultLanguage" placeholder="Default Language" formControlName="defaultLanguage"
+              <input type="text" class="form-control" name="defaultLanguage" id="defaultLanguage" placeholder="Default Language" formControlName="defaultLanguage"
                 [ngClass]="{'is-valid': editDataForm.get('defaultLanguage').valid,
               'is-invalid': editDataForm.get('defaultLanguage').invalid && editDataForm.get('defaultLanguage').touched}">
               <div class="invalid-feedback" *ngIf="editDataForm.get('defaultLanguage').hasError('required') && editDataForm.get('defaultLanguage').touched">
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
               <label for="loginIdentifiers">Login Identifiers</label>
-              <select class="form-control mb-3" id="loginIdentifiers" formControlName="loginIdentifiers" [ngClass]="{'is-valid': editDataForm.get('loginIdentifiers').valid,
+              <select class="form-control mb-3" name="loginIdentifiers" id="loginIdentifiers" formControlName="loginIdentifiers" [ngClass]="{'is-valid': editDataForm.get('loginIdentifiers').valid,
                            'is-invalid': editDataForm.get('loginIdentifiers').invalid && editDataForm.get('loginIdentifiers').touched}">
                 <div class="invalid-feedback" *ngIf="editDataForm.get('loginIdentifiers').hasError('required') && editDataForm.get('loginIdentifiers').touched">
                   This field is required
@@ -36,7 +36,8 @@
             </div>
             <div class="form-group">
               <label for="loginIdentifierConflict">Login Identifiers Conflict</label>
-              <select class="form-control mb-3" id="loginIdentifierConflict" formControlName="loginIdentifierConflict" [ngClass]="{'is-valid': editDataForm.get('loginIdentifierConflict').valid,
+              <select class="form-control mb-3" name="loginIdentifierConflict" id="loginIdentifierConflict" formControlName="loginIdentifierConflict"
+                [ngClass]="{'is-valid': editDataForm.get('loginIdentifierConflict').valid,
                              'is-invalid': editDataForm.get('loginIdentifierConflict').invalid && editDataForm.get('loginIdentifierConflict').untouched}">
                 <div class="invalid-feedback" *ngIf="editDataForm.get('loginIdentifierConflict').hasError('required') && editDataForm.get('loginIdentifierConflict').touched">
                   This field is required
@@ -58,7 +59,7 @@
             </div>
             <div class="form-group">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="allowUnverifiedLogin" formControlName="allowUnverifiedLogin">
+                <input class="form-check-input" name="allowUnverifiedLogin" type="checkbox" id="allowUnverifiedLogin" formControlName="allowUnverifiedLogin">
                 <label class="form-check-label" for="allowUnverifiedLogin">Allow Unverified Login</label>
                 <div class="invalid-feedback" *ngIf="editDataForm.get('allowUnverifiedLogin').hasError('required') && editDataForm.get('allowUnverifiedLogin').touched">
                   This field is required
@@ -67,7 +68,7 @@
             </div>
             <div class="form-group">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="preventLoginIDHarvesting" formControlName="preventLoginIDHarvesting">
+                <input class="form-check-input" name="preventLoginIDHarvesting" type="checkbox" id="preventLoginIDHarvesting" formControlName="preventLoginIDHarvesting">
                 <label class="form-check-label" for="preventLoginIDHarvesting">Prevent Login ID Harvesting</label>
                 <div class="invalid-feedback" *ngIf="editDataForm.get('preventLoginIDHarvesting').hasError('required') && editDataForm.get('preventLoginIDHarvesting').touched">
                   This field is required
@@ -76,7 +77,7 @@
             </div>
             <div class="form-group">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="sendAccountDeletedEmail" formControlName="sendAccountDeletedEmail">
+                <input class="form-check-input" name="sendAccountDeletedEmail" type="checkbox" id="sendAccountDeletedEmail" formControlName="sendAccountDeletedEmail">
                 <label class="form-check-label" for="sendAccountDeletedEmail">Send Account Deleted Email</label>
                 <div class="invalid-feedback" *ngIf="editDataForm.get('sendAccountDeletedEmail').hasError('required') && editDataForm.get('sendAccountDeletedEmail').touched">
                   This field is required
@@ -85,7 +86,7 @@
             </div>
             <div class="form-group">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="sendWelcomeEmail" formControlName="sendWelcomeEmail">
+                <input class="form-check-input" name="sendWelcomeEmail" type="checkbox" id="sendWelcomeEmail" formControlName="sendWelcomeEmail">
                 <label class="form-check-label" for="sendWelcomeEmail">Send Welcome Email</label>
                 <div class="invalid-feedback" *ngIf="editDataForm.get('sendWelcomeEmail').hasError('required') && editDataForm.get('sendWelcomeEmail').touched">
                   This field is required
@@ -94,7 +95,7 @@
             </div>
             <div class="form-group">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="verifyProviderEmail" formControlName="verifyProviderEmail">
+                <input class="form-check-input" name="verifyProviderEmail" type="checkbox" id="verifyProviderEmail" formControlName="verifyProviderEmail">
                 <label class="form-check-label" for="verifyProviderEmail">Verify Provider Email</label>
                 <div class="invalid-feedback" *ngIf="editDataForm.get('verifyProviderEmail').hasError('required') && editDataForm.get('verifyProviderEmail').touched">
                   This field is required

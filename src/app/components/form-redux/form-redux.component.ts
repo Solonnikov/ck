@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // Redux imports
 import { NgRedux } from '@angular-redux/store';
-import { AccountOptions } from '../../store';
+import { IAppState } from '../../store';
+import { AccountOptions } from '../../models/AccountOptions';
 import { GET, UPDATE } from '../../actions';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
@@ -14,25 +15,16 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./form-redux.component.css']
 })
 export class FormReduxComponent implements OnInit, OnChanges {
-  // @select() allowUnverifiedLogin: Observable<AccountOptions>;
-  // @select() defaultLanguage: Observable<AccountOptions>;
-  // @select() loginIdentifierConflict: Observable<AccountOptions>;
-  // @select() loginIdentifiers: Observable<AccountOptions>;
-  // @select() preventLoginIDHarvesting: Observable<AccountOptions>;
-  // @select() sendAccountDeletedEmail: Observable<AccountOptions>;
-  // @select() sendWelcomeEmail: Observable<AccountOptions>;
-  // @select() verifyEmail: Observable<AccountOptions>;
-  // @select() verifyProviderEmail: Observable<AccountOptions>;
-
   @Input() formDefault: AccountOptions;
   editDataForm: FormGroup;
 
   @Output() dataEdited = new EventEmitter<AccountOptions>();
 
   constructor(
-    private ngRedux: NgRedux<AccountOptions>,
+    private ngRedux: NgRedux<IAppState>,
     public fb: FormBuilder
   ) {
+
     this.createForm();
   }
 
@@ -40,8 +32,11 @@ export class FormReduxComponent implements OnInit, OnChanges {
     this.getData();
   }
 
-  ngOnChanges() {
-
+  ngOnChanges(changes: SimpleChanges) {
+    // Checking for changes and form validity
+    if (changes['formDefault'] && typeof this.formDefault === 'object') {
+      this.editDataForm.setValue(this.formDefault);
+    }
   }
 
   getData() {
@@ -53,7 +48,7 @@ export class FormReduxComponent implements OnInit, OnChanges {
     this.editDataForm = this.fb.group({
       allowUnverifiedLogin: [{ value: false, disabled: true }],
       defaultLanguage: ['en', Validators.compose([Validators.required, Validators.pattern(defaultLanguageRegex)])],
-      loginIdentifierConflict: ['', Validators.required],
+      loginIdentifierConflict: ['ignore', Validators.required],
       loginIdentifiers: ['email', Validators.required],
       preventLoginIDHarvesting: [false, Validators.required],
       sendAccountDeletedEmail: [false, Validators.required],
@@ -64,6 +59,14 @@ export class FormReduxComponent implements OnInit, OnChanges {
   }
 
   onEditSubmit() {
-    console.log('edited');
+    this.dataEdited.emit(this.editDataForm.value);
+    const value = this.editDataForm.getRawValue();
+    console.log(value);
+    this.ngRedux.dispatch({
+      type: UPDATE, payload: {
+        path: 'editDataForm',
+        value: value
+      }
+    });
   }
 }
