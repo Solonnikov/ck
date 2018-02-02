@@ -18,6 +18,7 @@ import { createEpicMiddleware } from 'redux-observable';
 })
 export class FormReduxComponent implements OnInit {
   editDataForm: Observable<AccountOptions>;
+  public loading = false;
 
   constructor(
     private ngRedux: NgRedux<IAppState>,

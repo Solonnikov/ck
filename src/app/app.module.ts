@@ -12,7 +12,6 @@ import { FormComponent } from './components/form/form.component';
 import { ReadonlyComponent } from './components/readonly/readonly.component';
 
 import { DataService } from './services/data.service';
-import { TestingService } from './services/testing.service';
 
 import { NgReduxModule, NgRedux } from '@angular-redux/store';
 import { NgReduxFormModule, composeReducers, defaultFormReducer } from '@angular-redux/form';
@@ -47,7 +46,7 @@ import { FormReduxComponent } from './components/form-redux/form-redux.component
       { path: 'redux', component: FormReduxComponent }
     ])
   ],
-  providers: [DataService, SessionEpics, TestingService],
+  providers: [DataService, SessionEpics],
   bootstrap: [AppComponent]
 })
 export class AppModule {
