@@ -21,34 +21,6 @@ describe('TestingService', () => {
     expect(service.editDataForm).toBeTruthy();
   }));
 
-  it('allowUnverifiedLogin should equal `false` by default', inject([TestingService], (service: TestingService) => {
-    expect(service.editDataForm.allowUnverifiedLogin).toEqual(false);
-  }));
-
-  it('defaultLanguage should equal `en` by default', inject([TestingService], (service: TestingService) => {
-    expect(service.editDataForm.defaultLanguage).toEqual('en');
-  }));
-
-  it('loginIdentifiers should equal `email` by default', inject([TestingService], (service: TestingService) => {
-    expect(service.editDataForm.loginIdentifiers).toEqual('email');
-  }));
-
-  it('preventLoginIDHarvesting should equal `false` by default', inject([TestingService], (service: TestingService) => {
-    expect(service.editDataForm.preventLoginIDHarvesting).toEqual(false);
-  }));
-
-  it('sendWelcomeEmail should equal `false` by default', inject([TestingService], (service: TestingService) => {
-    expect(service.editDataForm.sendWelcomeEmail).toEqual(false);
-  }));
-
-  it('verifyEmail should equal `false` by default but can be set to `true`', inject([TestingService], (service: TestingService) => {
-    expect(service.editDataForm.verifyEmail).toEqual(true || false);
-  }));
-
-  it('verifyProviderEmail should equal `false` by default', inject([TestingService], (service: TestingService) => {
-    expect(service.editDataForm.verifyProviderEmail).toEqual(false);
-  }));
-
   it('should contain accounts apis and credential', inject([TestingService], (service: TestingService) => {
     expect(service.accounts && service.credentials).toBeTruthy();
   }));
@@ -85,12 +57,51 @@ describe('TestingService', () => {
     expect(typeof (service.editDataForm) === 'object').toBeTruthy();
   }));
 
+  // Validate input fields
+  it('allowUnverifiedLogin should equal `false` by default', inject([TestingService], (service: TestingService) => {
+    expect(service.editDataForm.allowUnverifiedLogin).toEqual(false);
+  }));
+
+  it('defaultLanguage should equal `en` by default', inject([TestingService], (service: TestingService) => {
+    expect(service.editDataForm.defaultLanguage).toEqual('en');
+  }));
+
+  it('loginIdentifiers should equal `email` by default', inject([TestingService], (service: TestingService) => {
+    expect(service.editDataForm.loginIdentifiers).toEqual('email');
+  }));
+
+  it('preventLoginIDHarvesting should equal `false` by default', inject([TestingService], (service: TestingService) => {
+    expect(service.editDataForm.preventLoginIDHarvesting).toEqual(false);
+  }));
+
+  it('sendWelcomeEmail should equal `false` by default', inject([TestingService], (service: TestingService) => {
+    expect(service.editDataForm.sendWelcomeEmail).toEqual(false);
+  }));
+
+  it('verifyEmail should equal `false` by default but can be set to `true`', inject([TestingService], (service: TestingService) => {
+    expect(service.editDataForm.verifyEmail).toEqual(true || false);
+  }));
+
+  it('verifyProviderEmail should equal `false` by default', inject([TestingService], (service: TestingService) => {
+    expect(service.editDataForm.verifyProviderEmail).toEqual(false);
+  }));
+
   it('sendAccountDeletedEmail cant be true without accountDeletedEmailTemplates', inject([TestingService], (service: TestingService) => {
     const isAllowed = function sendAccountDeletedEmailAllowed() {
       return ('accountDeletedEmailTemplates' in service.editDataForm);
     }
     if (!isAllowed) {
       expect(service.editDataForm.sendAccountDeletedEmail).toBeTruthy();
+    }
+  }));
+
+  it('allowUnverifiedLogin and verifyProviderEmail cant be true without verifyEmail=true', inject([TestingService], (service: TestingService) => {
+    const isAllowed = function verifyEmailChecked() {
+      return service.editDataForm.verifyEmail;
+    }
+    if (!isAllowed) {
+      expect(service.editDataForm.allowUnverifiedLogin).toEqual(false);
+      expect(service.editDataForm.verifyProviderEmail).toEqual(false);
     }
   }));
 });

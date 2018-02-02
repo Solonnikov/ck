@@ -13,7 +13,7 @@ export class TestingService {
     allowUnverifiedLogin: false,
     defaultLanguage: 'en',
     loginIdentifierConflict: 'ignore',
-    loginIdentifiers: 'email',
+    loginIdentifiers: 'username',
     preventLoginIDHarvesting: false,
     sendAccountDeletedEmail: false,
     sendWelcomeEmail: false,
