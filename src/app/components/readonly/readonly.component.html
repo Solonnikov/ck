@@ -2,7 +2,9 @@
 <section *ngIf="accountOptions" id="readonly">
   <div class="container p-4">
     <h3 class="text-center">Account Options</h3>
-    <p class="text-center"><i>(Read Only Mode)</i></p>
+    <p class="text-center">
+      <i>(Read Only Mode)</i>
+    </p>
     <div class="row">
       <div class="col-md-6 mx-auto">
         <div class="card card-body">
@@ -42,14 +44,14 @@
               </select>
             </div>
             <div class="form-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="verifyEmail" formControlName="verifyEmail">
-                  <label class="form-check-label" for="verifyEmail">Verify Email</label>
-                  <div class="invalid-feedback" *ngIf="editDataForm.get('verifyEmail').hasError('required') && editDataForm.get('verifyEmail').touched">
-                    This field is required
-                  </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="verifyEmail" formControlName="verifyEmail">
+                <label class="form-check-label" for="verifyEmail">Verify Email</label>
+                <div class="invalid-feedback" *ngIf="editDataForm.get('verifyEmail').hasError('required') && editDataForm.get('verifyEmail').touched">
+                  This field is required
                 </div>
               </div>
+            </div>
             <div class="form-group">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="allowUnverifiedLogin" formControlName="allowUnverifiedLogin">

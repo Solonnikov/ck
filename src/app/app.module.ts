@@ -9,14 +9,14 @@ import { LoadingModule } from 'ngx-loading';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FormComponent } from './components/form/form.component';
+import { ReadonlyComponent } from './components/readonly/readonly.component';
 
 import { DataService } from './services/data.service';
-import { ReadonlyComponent } from './components/readonly/readonly.component';
+import { TestingService } from './services/testing.service';
 
 import { NgReduxModule, NgRedux } from '@angular-redux/store';
 import { NgReduxFormModule, composeReducers, defaultFormReducer } from '@angular-redux/form';
 import { combineReducers } from 'redux';
-
 import { createEpicMiddleware } from 'redux-observable';
 import { SessionEpics } from './services/session-epics';
 
@@ -47,7 +47,7 @@ import { FormReduxComponent } from './components/form-redux/form-redux.component
       { path: 'redux', component: FormReduxComponent }
     ])
   ],
-  providers: [DataService, SessionEpics],
+  providers: [DataService, SessionEpics, TestingService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

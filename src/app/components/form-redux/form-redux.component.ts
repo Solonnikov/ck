@@ -24,8 +24,6 @@ export class FormReduxComponent implements OnInit {
     public router: Router
   ) {
     this.editDataForm = ngRedux.select('editDataForm');
-
-
   }
 
   ngOnInit() {
