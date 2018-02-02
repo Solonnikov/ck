@@ -1,17 +1,8 @@
-import { GET, UPDATE } from './actions';
+import { GET, FORM_CHANGED } from './actions';
+import { AccountOptions } from './models/AccountOptions';
 
 export interface IAppState {
-  editDataForm: {
-    allowUnverifiedLogin: boolean;
-    defaultLanguage: string
-    loginIdentifierConflict: string
-    loginIdentifiers: string
-    preventLoginIDHarvesting: boolean
-    sendAccountDeletedEmail: boolean
-    sendWelcomeEmail: boolean
-    verifyEmail: boolean
-    verifyProviderEmail: boolean,
-  }
+  editDataForm: AccountOptions;
 }
 
 export const INITIAL_STATE: IAppState = {
@@ -28,14 +19,16 @@ export const INITIAL_STATE: IAppState = {
   }
 }
 
-export function rootReducer(state: IAppState, action): IAppState {
+export function rootReducer(state: IAppState = INITIAL_STATE, action): IAppState {
+  console.log(action.type, state.editDataForm);
   switch (action.type) {
     case GET: return {
       editDataForm: state.editDataForm
     }
-    case UPDATE:
-      console.log(action.payload);
-      return { ...state, [action.payload.path]: action.payload.value }
+    case FORM_CHANGED:
+      return {
+        editDataForm: state.editDataForm
+      }
+    default: return state;
   }
-  return state;
 }

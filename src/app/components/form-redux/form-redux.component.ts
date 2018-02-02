@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -9,37 +9,39 @@ import { AccountOptions } from '../../models/AccountOptions';
 import { GET, FORM_CHANGED } from '../../actions';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
+import { createEpicMiddleware } from 'redux-observable';
 
 @Component({
   selector: 'app-form-redux',
   templateUrl: './form-redux.component.html',
   styleUrls: ['./form-redux.component.css']
 })
-export class FormReduxComponent implements OnInit, OnChanges {
+export class FormReduxComponent implements OnInit {
   editDataForm: Observable<AccountOptions>;
-
-  accountOptions: AccountOptions;
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
     public router: Router
   ) {
     this.editDataForm = ngRedux.select('editDataForm');
+
+
   }
 
   ngOnInit() {
+    this.getData();
   }
 
-  ngOnChanges() {
-
+  getData() {
+    this.ngRedux.dispatch({
+      type: GET
+    });
   }
 
   onEditSubmit() {
     this.ngRedux.dispatch({
-      type: FORM_CHANGED, payload: {
-        value: this.editDataForm
-      }
+      type: FORM_CHANGED,
+      payload: this.editDataForm
     });
-    this.router.navigate(['/readonly']);
-  }
+  };
 }

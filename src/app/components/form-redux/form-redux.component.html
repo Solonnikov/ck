@@ -8,15 +8,16 @@
       <div class="col-md-6 mx-auto">
         <div class="card card-body">
           <div *ngIf="editDataForm | async as form">
-            <form (ngSubmit)="onEditSubmit()" #editDataForm="ngForm">
+            <form connect="editDataForm" (ngSubmit)="onEditSubmit()" #editDataForm="ngForm">
               <div class="form-group">
                 <label for="defaultLanguage">Default Language</label>
                 <input type="text" class="form-control" required [(ngModel)]="form.defaultLanguage" name="defaultLanguage" #defaultLanguage="ngModel"
-                  placeholder="Default Language">
+                  ngControl ngModel placeholder="Default Language">
               </div>
               <div class="form-group">
                 <label for="loginIdentifierConflict">Login Identifier Conflict</label>
-                <select class="form-control" required [(ngModel)]="form.loginIdentifierConflict" name="loginIdentifierConflict" #loginIdentifierConflict="ngModel">
+                <select class="form-control" [(ngModel)]="form.loginIdentifierConflict" name="loginIdentifierConflict" #loginIdentifierConflict="ngModel"
+                  ngControl ngModel>
                   <option value="Login Identifier Conflict" disabled selected>Login Identifier Conflict</option>
                   <option>ignore</option>
                   <option>failOnSiteConflictingIdentity</option>
@@ -25,8 +26,8 @@
               </div>
               <div class="form-group">
                 <label for="loginIdentifiers">Login Identifiers</label>
-                <select type="text" class="form-control" required [(ngModel)]="form.loginIdentifiers" name="loginIdentifiers" #loginIdentifiers="ngModel"
-                  placeholder="Login Identifiers">
+                <select type="text" class="form-control" [(ngModel)]="form.loginIdentifiers" name="loginIdentifiers" #loginIdentifiers="ngModel"
+                  ngControl ngModel placeholder="Login Identifiers">
                   <option value="Login Identifiers" disabled selected>Login Identifiers</option>
                   <option>email</option>
                   <option>username</option>
@@ -36,42 +37,42 @@
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" required [(ngModel)]="form.verifyEmail" #verifyEmail="ngModel" name="verifyEmail" type="checkbox"
-                    id="verifyEmail">
+                  <input class="form-check-input" [(ngModel)]="form.verifyEmail" #verifyEmail="ngModel" name="verifyEmail" type="checkbox"
+                    id="verifyEmail" ngControl ngModel>
                   <label class="form-check-label" for="verifyEmail">Verify Email</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" required [(ngModel)]="form.allowUnverifiedLogin" #allowUnverifiedLogin="ngModel" name="allowUnverifiedLogin"
-                    type="checkbox" id="allowUnverifiedLogin">
+                  <input class="form-check-input" [(ngModel)]="form.allowUnverifiedLogin" #allowUnverifiedLogin="ngModel" name="allowUnverifiedLogin"
+                    ngControl ngModel type="checkbox" id="allowUnverifiedLogin">
                   <label class="form-check-label" for="allowUnverifiedLogin">Allow Unverified Login</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" required [(ngModel)]="form.preventLoginIDHarvesting" #preventLoginIDHarvesting="ngModel"
-                    name="preventLoginIDHarvesting" type="checkbox" id="preventLoginIDHarvesting">
+                  <input class="form-check-input" [(ngModel)]="form.preventLoginIDHarvesting" #preventLoginIDHarvesting="ngModel" name="preventLoginIDHarvesting"
+                    type="checkbox" id="preventLoginIDHarvesting" ngControl ngModel>
                   <label class="form-check-label" for="preventLoginIDHarvesting">Prevent Login ID Harvesting</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" required [(ngModel)]="form.sendAccountDeletedEmail" #sendAccountDeletedEmail="ngModel" name="sendAccountDeletedEmail"
-                    type="checkbox" id="sendAccountDeletedEmail">
+                  <input class="form-check-input" [(ngModel)]="form.sendAccountDeletedEmail" #sendAccountDeletedEmail="ngModel" name="sendAccountDeletedEmail"
+                    ngControl ngModel type="checkbox" id="sendAccountDeletedEmail">
                   <label class="form-check-label" for="sendAccountDeletedEmail">Send Account Deleted Email</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" required [(ngModel)]="form.sendWelcomeEmail" #sendWelcomeEmail="ngModel" name="sendWelcomeEmail"
-                    type="checkbox" id="sendWelcomeEmail">
+                  <input class="form-check-input" [(ngModel)]="form.sendWelcomeEmail" #sendWelcomeEmail="ngModel" name="sendWelcomeEmail" type="checkbox"
+                    id="sendWelcomeEmail" ngControl ngModel>
                   <label class="form-check-label" for="sendWelcomeEmail">Send Welcome Email</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" required [(ngModel)]="form.verifyProviderEmail" #verifyProviderEmail="ngModel" name="verifyProviderEmail"
+                  <input class="form-check-input" ngControl ngModel [(ngModel)]="form.verifyProviderEmail" #verifyProviderEmail="ngModel" name="verifyProviderEmail"
                     type="checkbox" id="verifyProviderEmail">
                   <label class="form-check-label" for="verifyProviderEmail">Verify Provider Email</label>
                 </div>
