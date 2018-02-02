@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class TestingService {
@@ -20,16 +21,20 @@ export class TestingService {
     verifyProviderEmail: false,
   }
 
-  constructor() {
-    this.updateData();
+  constructor(public http: HttpClient) {
+    const value = this.editDataForm.verifyEmail = true
+    this.updateData(value);
   }
 
-  getData() {
-    return this.editDataForm;
+  getData(): Observable<any> {
+    return this.http.jsonp(`${this.accounts.getPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK')
+      .map(res => res);
   }
 
-  updateData() {
-    this.editDataForm.verifyEmail = true;
+  updateData(value: any): Observable<any> {
+    const accountOptions = value;
+    return this.http.jsonp(`${this.accounts.setPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&accountOptions=${accountOptions}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK')
+      .map(res => res);
   }
 
   postData() {
