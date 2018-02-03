@@ -18,7 +18,6 @@ import { createEpicMiddleware } from 'redux-observable';
 })
 export class FormReduxComponent implements OnInit {
   editDataForm: Observable<AccountOptions>;
-  public loading = false;
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
@@ -37,10 +36,13 @@ export class FormReduxComponent implements OnInit {
     });
   }
 
-  onEditSubmit() {
-    this.ngRedux.dispatch({
-      type: FORM_CHANGED,
-      payload: this.editDataForm
-    });
-  };
+  // onEditSubmit() {
+  //   this.ngRedux.dispatch({
+  //     type: FORM_CHANGED,
+  //     payload: {
+  //       defaultLanguage: 'ua',
+  //       loginIdentifiers: 'username'
+  //     }
+  //   });
+  // };
 }
