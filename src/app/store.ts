@@ -1,4 +1,4 @@
-import { GET, FORM_CHANGED } from './actions';
+import { GET, GET_SUCCESS, GET_ERROR, FORM_CHANGED, UPDATE_SUCCESS, UPDATE_ERROR } from './actions';
 import { AccountOptions } from './models/AccountOptions';
 
 export interface IAppState {
@@ -24,6 +24,9 @@ export function rootReducer(state: IAppState = INITIAL_STATE, action): IAppState
   switch (action.type) {
     case GET: return {
       editDataForm: state.editDataForm
+    }
+    case GET_SUCCESS: return {
+      editDataForm: action.payload
     }
     case FORM_CHANGED:
       return {

@@ -37,7 +37,7 @@ export class FormReduxComponent implements OnInit {
     this.ngRedux.dispatch({
       type: FORM_CHANGED,
       payload: {
-        defaultLanguage: 'en'
+        defaultLanguage: 'ua'
       }
     });
   };

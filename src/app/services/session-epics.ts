@@ -43,10 +43,12 @@ export class SessionEpics {
       .mergeMap(({ }) => {
         return this.http.jsonp(`${this.accounts.getPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK')
           .map(result =>
-            ({
+            // Loggin the actual data from server
+            (console.log('Data from server by epic middleware', result.accountOptions), {
               type: GET_SUCCESS,
-              payload: result
-            }))
+              payload: result.accountOptions
+            })
+          )
           .catch(error => Observable.of({
             type: GET_ERROR
           }));
