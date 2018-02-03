@@ -1,12 +1,14 @@
-<ngx-loading [show]="loading"></ngx-loading>
-<section *ngIf="accountOptions" id="readonly">
+<section id="readonly">
   <div class="container p-4">
-    <h3 class="text-center">Account Options</h3>
+    <h3 *ngIf="!loading" class="text-center">Account Options</h3>
     <p class="text-center">
-      <i>(Read Only Mode)</i>
+      <i *ngIf="!loading">(Read Only)</i>
     </p>
     <div class="row">
       <div class="col-md-6 mx-auto">
+        <ngx-loading [show]="loading" [config]="{
+            backdropBackgroundColour: '#fff', backdropBorderRadius: '0px',
+            primaryColour: '#000', secondaryColour: '#000', tertiaryColour: '#000' }"></ngx-loading>
         <div class="card card-body">
           <form [formGroup]="editDataForm" id="editDataForm">
             <div class="form-group">

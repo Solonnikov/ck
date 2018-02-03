@@ -1,8 +1,8 @@
-<section id="form-redux">
+<section id="redux-update">
   <div class="container p-4">
     <h3 class="text-center">Account Options</h3>
     <p class="text-center">
-      <i>(Redux Readonly)</i>
+      <i>(Redux Implementation)</i>
     </p>
     <div class="row">
       <div class="col-md-6 mx-auto">
@@ -11,12 +11,12 @@
             <form connect="editDataForm" (ngSubmit)="onEditSubmit()" #editDataForm="ngForm">
               <div class="form-group">
                 <label for="defaultLanguage">Default Language</label>
-                <input [disabled]="true" type="text" class="form-control" required [(ngModel)]="form.defaultLanguage" name="defaultLanguage" #defaultLanguage="ngModel"
+                <input type="text" class="form-control" required [(ngModel)]="form.defaultLanguage" name="defaultLanguage" #defaultLanguage="ngModel"
                   ngControl ngModel placeholder="Default Language">
               </div>
               <div class="form-group">
                 <label for="loginIdentifierConflict">Login Identifier Conflict</label>
-                <select [disabled]="true" class="form-control" [(ngModel)]="form.loginIdentifierConflict" name="loginIdentifierConflict" #loginIdentifierConflict="ngModel"
+                <select class="form-control" [(ngModel)]="form.loginIdentifierConflict" name="loginIdentifierConflict" #loginIdentifierConflict="ngModel"
                   ngControl ngModel>
                   <option value="Login Identifier Conflict" disabled selected>Login Identifier Conflict</option>
                   <option>ignore</option>
@@ -26,7 +26,7 @@
               </div>
               <div class="form-group">
                 <label for="loginIdentifiers">Login Identifiers</label>
-                <select [disabled]="true" type="text" class="form-control" [(ngModel)]="form.loginIdentifiers" name="loginIdentifiers" #loginIdentifiers="ngModel"
+                <select type="text" class="form-control" [(ngModel)]="form.loginIdentifiers" name="loginIdentifiers" #loginIdentifiers="ngModel"
                   ngControl ngModel placeholder="Login Identifiers">
                   <option value="Login Identifiers" disabled selected>Login Identifiers</option>
                   <option>email</option>
@@ -37,47 +37,47 @@
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input [disabled]="true" class="form-check-input" [(ngModel)]="form.verifyEmail" #verifyEmail="ngModel" name="verifyEmail" type="checkbox"
+                  <input class="form-check-input" [(ngModel)]="form.verifyEmail" #verifyEmail="ngModel" name="verifyEmail" type="checkbox"
                     id="verifyEmail" ngControl ngModel>
                   <label class="form-check-label" for="verifyEmail">Verify Email</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input [disabled]="true" class="form-check-input" [(ngModel)]="form.allowUnverifiedLogin" #allowUnverifiedLogin="ngModel" name="allowUnverifiedLogin"
+                  <input class="form-check-input" [(ngModel)]="form.allowUnverifiedLogin" #allowUnverifiedLogin="ngModel" name="allowUnverifiedLogin"
                     ngControl ngModel type="checkbox" id="allowUnverifiedLogin">
                   <label class="form-check-label" for="allowUnverifiedLogin">Allow Unverified Login</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input [disabled]="true" class="form-check-input" [(ngModel)]="form.preventLoginIDHarvesting" #preventLoginIDHarvesting="ngModel" name="preventLoginIDHarvesting"
+                  <input class="form-check-input" [(ngModel)]="form.preventLoginIDHarvesting" #preventLoginIDHarvesting="ngModel" name="preventLoginIDHarvesting"
                     type="checkbox" id="preventLoginIDHarvesting" ngControl ngModel>
                   <label class="form-check-label" for="preventLoginIDHarvesting">Prevent Login ID Harvesting</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input [disabled]="true" class="form-check-input" [(ngModel)]="form.sendAccountDeletedEmail" #sendAccountDeletedEmail="ngModel" name="sendAccountDeletedEmail"
+                  <input class="form-check-input" [(ngModel)]="form.sendAccountDeletedEmail" #sendAccountDeletedEmail="ngModel" name="sendAccountDeletedEmail"
                     ngControl ngModel type="checkbox" id="sendAccountDeletedEmail">
                   <label class="form-check-label" for="sendAccountDeletedEmail">Send Account Deleted Email</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input [disabled]="true" class="form-check-input" [(ngModel)]="form.sendWelcomeEmail" #sendWelcomeEmail="ngModel" name="sendWelcomeEmail" type="checkbox"
+                  <input class="form-check-input" [(ngModel)]="form.sendWelcomeEmail" #sendWelcomeEmail="ngModel" name="sendWelcomeEmail" type="checkbox"
                     id="sendWelcomeEmail" ngControl ngModel>
                   <label class="form-check-label" for="sendWelcomeEmail">Send Welcome Email</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input [disabled]="true" class="form-check-input" ngControl ngModel [(ngModel)]="form.verifyProviderEmail" #verifyProviderEmail="ngModel" name="verifyProviderEmail"
+                  <input class="form-check-input" ngControl ngModel [(ngModel)]="form.verifyProviderEmail" #verifyProviderEmail="ngModel" name="verifyProviderEmail"
                     type="checkbox" id="verifyProviderEmail">
                   <label class="form-check-label" for="verifyProviderEmail">Verify Provider Email</label>
                 </div>
               </div>
-              <button type="button" routerLink="/redux-update" class="btn btn-success btn-block">Edit</button>
+              <button type="button" routerLink="/redux-update" class="btn btn-success btn-block" [disabled]="!editDataForm.form.valid">Edit</button>
             </form>
           </div>
         </div>
