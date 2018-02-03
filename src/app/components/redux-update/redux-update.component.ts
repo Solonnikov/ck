@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FlashMessagesService } from 'ngx-flash-messages';
 
 // Redux imports
 import { NgRedux } from '@angular-redux/store';
@@ -22,18 +23,20 @@ export class ReduxUpdateComponent implements OnInit {
 
   accountOptions = {
     allowUnverifiedLogin: null,
-    defaultLanguage: '',
-    loginIdentifierConflict: '',
-    loginIdentifiers: '',
+    defaultLanguage: null,
+    loginIdentifierConflict: null,
+    loginIdentifiers: null,
     preventLoginIDHarvesting: null,
     sendAccountDeletedEmail: null,
     sendWelcomeEmail: null,
-    verifyProviderEmail: null,
+    verifyEmail: null,
+    verifyProviderEmail: null
   }
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
-    public router: Router
+    public router: Router,
+    public flashMessagesService: FlashMessagesService
   ) {
     this.editDataForm = ngRedux.select('editDataForm');
   }
@@ -48,16 +51,17 @@ export class ReduxUpdateComponent implements OnInit {
     this.ngRedux.dispatch({
       type: FORM_CHANGED,
       payload: {
-        // allowUnverifiedLogin: this.accountOptions.allowUnverifiedLogin,
+        allowUnverifiedLogin: this.accountOptions.allowUnverifiedLogin,
         defaultLanguage: this.accountOptions.defaultLanguage,
-        // loginIdentifierConflict: this.accountOptions.loginIdentifierConflict,
-        // loginIdentifiers: this.accountOptions.loginIdentifiers,
-        // preventLoginIDHarvesting: this.accountOptions.preventLoginIDHarvesting,
-        // sendAccountDeletedEmail: this.accountOptions.sendAccountDeletedEmail,
-        // sendWelcomeEmail: this.accountOptions.sendWelcomeEmail,
-        // verifyProviderEmail: this.accountOptions.verifyProviderEmail,
+        loginIdentifierConflict: this.accountOptions.loginIdentifierConflict,
+        loginIdentifiers: this.accountOptions.loginIdentifiers,
+        preventLoginIDHarvesting: this.accountOptions.preventLoginIDHarvesting,
+        sendAccountDeletedEmail: this.accountOptions.sendAccountDeletedEmail,
+        sendWelcomeEmail: this.accountOptions.sendWelcomeEmail,
+        verifyEmail: this.accountOptions.verifyEmail,
+        verifyProviderEmail: this.accountOptions.verifyProviderEmail,
       }
     });
-    this.router.navigate(['/redux-readonly']);
+    this.flashMessagesService.show('Data successfully submitted', { classes: ['alert', 'alert-success'], timeout: 4000 });
   };
 }

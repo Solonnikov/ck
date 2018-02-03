@@ -11,14 +11,16 @@
             <form (ngSubmit)="onEditSubmit()" #editDataForm="ngForm">
               <div class="form-group">
                 <label for="defaultLanguage">Default Language</label>
-                <input type="text" class="form-control" required [(ngModel)]="accountOptions.defaultLanguage" name="defaultLanguage" #defaultLanguage="ngModel" ngControl ngModel
-                  placeholder="Default Language">
+                <input type="text" class="form-control" [(ngModel)]="accountOptions.defaultLanguage" name="defaultLanguage" #defaultLanguage="ngModel"
+                  ngControl ngModel placeholder="Choose Default Language" [ngClass]="{'is-valid': defaultLanguage.valid || defaultLanguage.pristine,
+                'is-invalid': defaultLanguage.invalid && defaultLanguage.touched}">
               </div>
-              <!-- <div class="form-group">
+              <div class="form-group">
                 <label for="loginIdentifierConflict">Login Identifier Conflict</label>
-                <select class="form-control" [(ngModel)]="form.loginIdentifierConflict" name="loginIdentifierConflict" #loginIdentifierConflict="ngModel"
+                <select class="form-control select" [(ngModel)]="accountOptions.loginIdentifierConflict" placeholder="Select a state" name="loginIdentifierConflict" #loginIdentifierConflict="ngModel" [ngClass]="{'is-valid': defaultLanguage.valid || defaultLanguage.pristine,
+                'is-invalid': defaultLanguage.invalid && defaultLanguage.touched}"
                   ngControl ngModel>
-                  <option value="Login Identifier Conflict" disabled selected>Login Identifier Conflict</option>
+                  <option disabled hidden [value]="accountOptions.loginIdentifiers">-- select --</option>
                   <option>ignore</option>
                   <option>failOnSiteConflictingIdentity</option>
                   <option>failOnAnyConflictingIdentity</option>
@@ -26,9 +28,10 @@
               </div>
               <div class="form-group">
                 <label for="loginIdentifiers">Login Identifiers</label>
-                <select type="text" class="form-control" [(ngModel)]="form.loginIdentifiers" name="loginIdentifiers" #loginIdentifiers="ngModel"
-                  ngControl ngModel placeholder="Login Identifiers">
-                  <option value="Login Identifiers" disabled selected>Login Identifiers</option>
+                <select class="form-control" [(ngModel)]="accountOptions.loginIdentifiers" name="loginIdentifiers" #loginIdentifiers="ngModel" [ngClass]="{'is-valid': defaultLanguage.valid || defaultLanguage.pristine,
+                'is-invalid': defaultLanguage.invalid && defaultLanguage.touched}"
+                  ngControl ngModel>
+                  <option disabled hidden [value]="accountOptions.loginIdentifiers">-- select --</option>
                   <option>email</option>
                   <option>username</option>
                   <option>email, username</option>
@@ -37,46 +40,46 @@
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" [(ngModel)]="form.verifyEmail" #verifyEmail="ngModel" name="verifyEmail" type="checkbox"
+                  <input class="form-check-input" [(ngModel)]="accountOptions.verifyEmail" #verifyEmail="ngModel" name="verifyEmail" type="checkbox"
                     id="verifyEmail" ngControl ngModel>
                   <label class="form-check-label" for="verifyEmail">Verify Email</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" [(ngModel)]="form.allowUnverifiedLogin" #allowUnverifiedLogin="ngModel" name="allowUnverifiedLogin"
+                  <input class="form-check-input" [(ngModel)]="accountOptions.allowUnverifiedLogin" #allowUnverifiedLogin="ngModel" name="allowUnverifiedLogin"
                     ngControl ngModel type="checkbox" id="allowUnverifiedLogin">
                   <label class="form-check-label" for="allowUnverifiedLogin">Allow Unverified Login</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" [(ngModel)]="form.preventLoginIDHarvesting" #preventLoginIDHarvesting="ngModel" name="preventLoginIDHarvesting"
-                    type="checkbox" id="preventLoginIDHarvesting" ngControl ngModel>
+                  <input class="form-check-input" [(ngModel)]="accountOptions.preventLoginIDHarvesting" #preventLoginIDHarvesting="ngModel"
+                    name="preventLoginIDHarvesting" type="checkbox" id="preventLoginIDHarvesting" ngControl ngModel>
                   <label class="form-check-label" for="preventLoginIDHarvesting">Prevent Login ID Harvesting</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" [(ngModel)]="form.sendAccountDeletedEmail" #sendAccountDeletedEmail="ngModel" name="sendAccountDeletedEmail"
-                    ngControl ngModel type="checkbox" id="sendAccountDeletedEmail">
+                  <input class="form-check-input" [disabled]="true" [(ngModel)]="accountOptions.sendAccountDeletedEmail" #sendAccountDeletedEmail="ngModel"
+                    name="sendAccountDeletedEmail" ngControl ngModel type="checkbox" id="sendAccountDeletedEmail">
                   <label class="form-check-label" for="sendAccountDeletedEmail">Send Account Deleted Email</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" [(ngModel)]="form.sendWelcomeEmail" #sendWelcomeEmail="ngModel" name="sendWelcomeEmail" type="checkbox"
-                    id="sendWelcomeEmail" ngControl ngModel>
+                  <input class="form-check-input" [(ngModel)]="accountOptions.sendWelcomeEmail" #sendWelcomeEmail="ngModel" name="sendWelcomeEmail"
+                    type="checkbox" id="sendWelcomeEmail" ngControl ngModel>
                   <label class="form-check-label" for="sendWelcomeEmail">Send Welcome Email</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" ngControl ngModel [(ngModel)]="form.verifyProviderEmail" #verifyProviderEmail="ngModel" name="verifyProviderEmail"
-                    type="checkbox" id="verifyProviderEmail">
+                  <input class="form-check-input" ngControl ngModel [(ngModel)]="accountOptions.verifyProviderEmail" #verifyProviderEmail="ngModel" 
+                    name="verifyProviderEmail" type="checkbox" id="verifyProviderEmail">
                   <label class="form-check-label" for="verifyProviderEmail">Verify Provider Email</label>
                 </div>
-              </div> -->
+              </div>
               <button type="submit" class="btn btn-success btn-block" [disabled]="!editDataForm.form.valid">Submit</button>
             </form>
           </div>

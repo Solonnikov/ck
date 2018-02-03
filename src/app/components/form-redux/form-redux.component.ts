@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../store';
 import { AccountOptions } from '../../models/AccountOptions';
-import { GET, GET_SUCCESS, UPDATE_SUCCESS } from '../../actions';
+import { GET, GET_SUCCESS, GET_ERROR, FORM_CHANGED, UPDATE_SUCCESS, UPDATE_ERROR } from '../../actions';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
