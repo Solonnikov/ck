@@ -6,10 +6,11 @@ import { Router } from '@angular/router';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../store';
 import { AccountOptions } from '../../models/AccountOptions';
-import { GET, FORM_CHANGED } from '../../actions';
+import { GET, GET_SUCCESS, FORM_CHANGED } from '../../actions';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import { createEpicMiddleware } from 'redux-observable';
+import { TypeModifier } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-form-redux',
@@ -27,10 +28,6 @@ export class FormReduxComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getData();
-  }
-
-  getData() {
     this.ngRedux.dispatch({
       type: GET
     });
@@ -40,15 +37,7 @@ export class FormReduxComponent implements OnInit {
     this.ngRedux.dispatch({
       type: FORM_CHANGED,
       payload: {
-        allowUnverifiedLogin: false,
-        defaultLanguage: 'en',
-        loginIdentifierConflict: 'ignore',
-        loginIdentifiers: 'email',
-        preventLoginIDHarvesting: false,
-        sendAccountDeletedEmail: false,
-        sendWelcomeEmail: false,
-        verifyEmail: false,
-        verifyProviderEmail: false,
+        defaultLanguage: 'en'
       }
     });
   };

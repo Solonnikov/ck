@@ -23,23 +23,11 @@ export class SessionEpics {
   ) {
   }
 
-  // get = (action$: ActionsObservable) => {
-  //   return action$.ofType(GET)
-  //     .mergeMap(({ }) => {
-  //       return this.http.jsonp('https://accounts.gigya.com/accounts.getPolicies?userkey=AJA3Cw9XcJZf&secret=1J%2BYxAY47khnuXf4GKSggLpPFBbQv8Hq&apikey=3_inujb44QPskKBok5VwhYnqy40eaVrwAJXXLsqaHRI_6DCM3KHhxNXjjcFQe0PASK&format=jsonp&callback=JSONP_CALLBACK', 'JSONP_CALLBACK')
-  //         .map(res => ({
-  //           type: GET
-  //         }))
-  //         .catch(error => Observable.of({
-  //           type: UPDATE_ERROR
-  //         }));
-  //     });
-  // }
-
-  update = (action$: ActionsObservable) => {
+  update = (action$: ActionsObservable<any>) => {
     return action$.ofType(FORM_CHANGED)
-      .mergeMap(({payload}) => {
-        return this.http.post('https://jsonplaceholder.typicode.com/posts', payload)
+      .mergeMap(({ payload }) => {
+        payload = JSON.stringify(payload);
+        return this.http.jsonp(`${this.accounts.setPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&accountOptions=${payload}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK')
           .map(result => ({
             type: UPDATE_SUCCESS,
             payload: result
@@ -47,36 +35,21 @@ export class SessionEpics {
           .catch(error => Observable.of({
             type: UPDATE_ERROR
           }));
-        });
+      });
   }
 
-  get = (action$: ActionsObservable) => {
+  get = (action$: ActionsObservable<any>) => {
     return action$.ofType(GET)
-      .mergeMap(({}) => {
-        return this.http.get('https://jsonplaceholder.typicode.com/posts')
-          .map(result => ({
-            type: GET_SUCCESS,
-            payload: result
-          }))
+      .mergeMap(({ }) => {
+        return this.http.jsonp(`${this.accounts.getPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK')
+          .map(result =>
+            ({
+              type: GET_SUCCESS,
+              payload: result
+            }))
           .catch(error => Observable.of({
             type: GET_ERROR
           }));
-        });
+      });
   }
-
-
-  // update = (action) => {
-  //   return action.ofType(FORM_CHANGED)
-  //     .mergeMap(({ payload }) => {
-  //       return this.http.jsonp(`${this.accounts.setPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&accountOptions=${action.payload}&format=jsonp&callback=JSONP_CALLBACK`, action.payload)
-  //         .map(result => ({
-  //           type: UPDATE_SUCCESS,
-  //           payload: result
-  //         }))
-  //         .catch(error => Observable.of({
-  //           type: UPDATE_ERROR
-  //         }));
-  //     });
-  // }
-
 }
