@@ -37,8 +37,9 @@ export class ReduxUpdateComponent implements OnInit {
     this.ngRedux.dispatch({
       type: FORM_CHANGED,
       payload: {
-        defaultLanguage: 'ua'
+        defaultLanguage: 'it'
       }
     });
+    this.router.navigate(['/redux-readonly']);
   };
 }
