@@ -36,13 +36,20 @@ export class FormReduxComponent implements OnInit {
     });
   }
 
-  // onEditSubmit() {
-  //   this.ngRedux.dispatch({
-  //     type: FORM_CHANGED,
-  //     payload: {
-  //       defaultLanguage: 'ua',
-  //       loginIdentifiers: 'username'
-  //     }
-  //   });
-  // };
+  onEditSubmit() {
+    this.ngRedux.dispatch({
+      type: FORM_CHANGED,
+      payload: {
+        allowUnverifiedLogin: false,
+        defaultLanguage: 'en',
+        loginIdentifierConflict: 'ignore',
+        loginIdentifiers: 'email',
+        preventLoginIDHarvesting: false,
+        sendAccountDeletedEmail: false,
+        sendWelcomeEmail: false,
+        verifyEmail: false,
+        verifyProviderEmail: false,
+      }
+    });
+  };
 }

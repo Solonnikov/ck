@@ -56,7 +56,7 @@ export class AppModule {
   ) {
 
     const middleware = [
-      // createEpicMiddleware(this.epics.update),
+      createEpicMiddleware(this.epics.update),
       createEpicMiddleware(this.epics.get),
     ];
 
