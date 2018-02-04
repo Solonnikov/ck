@@ -16,26 +16,26 @@
                 'is-invalid': defaultLanguage.invalid && defaultLanguage.touched}">
               </div>
               <div class="form-group">
-                <label for="loginIdentifierConflict">Login Identifier Conflict</label>
-                <select class="form-control select" [(ngModel)]="accountOptions.loginIdentifierConflict" placeholder="Select a state" name="loginIdentifierConflict"
-                  #loginIdentifierConflict="ngModel" [ngClass]="{'is-valid': loginIdentifierConflict.valid || loginIdentifierConflict.pristine,
-                'is-invalid': loginIdentifierConflict.invalid && loginIdentifierConflict.touched}" ngControl ngModel>
-                  <!-- <option disabled hidden [value]="accountOptions.loginIdentifierConflict">-- select --</option> -->
-                  <option>ignore</option>
-                  <option>failOnSiteConflictingIdentity</option>
-                  <option>failOnAnyConflictingIdentity</option>
-                </select>
-              </div>
-              <div class="form-group">
                 <label for="loginIdentifiers">Login Identifiers</label>
                 <select class="form-control" [(ngModel)]="accountOptions.loginIdentifiers" name="loginIdentifiers" #loginIdentifiers="ngModel"
                   [ngClass]="{'is-valid': loginIdentifiers.valid || loginIdentifiers.pristine,
-                'is-invalid': loginIdentifiers.invalid && loginIdentifiers.touched}" ngControl ngModel>
-                  <!-- <option disabled hidden [value]="accountOptions.loginIdentifiers">-- select --</option> -->
+                  'is-invalid': loginIdentifiers.invalid && loginIdentifiers.touched}" ngControl ngModel>
+                  <option value="" disabled selected>Choose Login Identifiers</option>
                   <option>email</option>
                   <option>username</option>
                   <option>email, username</option>
                   <option>providerEmail</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="loginIdentifierConflict">Login Identifier Conflict</label>
+                <select class="form-control select" [(ngModel)]="accountOptions.loginIdentifierConflict" placeholder="Select a state" name="loginIdentifierConflict"
+                  #loginIdentifierConflict="ngModel" [ngClass]="{'is-valid': loginIdentifierConflict.valid || loginIdentifierConflict.pristine,
+                'is-invalid': loginIdentifierConflict.invalid && loginIdentifierConflict.touched}" ngControl ngModel>
+                  <option value="" disabled selected>Choose Login Identifier Conflict</option>
+                  <option>ignore</option>
+                  <option>failOnSiteConflictingIdentity</option>
+                  <option>failOnAnyConflictingIdentity</option>
                 </select>
               </div>
               <div class="form-group">

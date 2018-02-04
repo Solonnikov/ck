@@ -15,6 +15,17 @@
                   ngControl ngModel placeholder="Default Language">
               </div>
               <div class="form-group">
+                  <label for="loginIdentifiers">Login Identifiers</label>
+                  <select [disabled]="true" type="text" class="form-control" [(ngModel)]="form.loginIdentifiers" name="loginIdentifiers" #loginIdentifiers="ngModel"
+                    ngControl ngModel placeholder="Login Identifiers">
+                    <option value="Login Identifiers" disabled selected>Login Identifiers</option>
+                    <option>email</option>
+                    <option>username</option>
+                    <option>email, username</option>
+                    <option>providerEmail</option>
+                  </select>
+                </div>
+              <div class="form-group">
                 <label for="loginIdentifierConflict">Login Identifier Conflict</label>
                 <select [disabled]="true" class="form-control" [(ngModel)]="form.loginIdentifierConflict" name="loginIdentifierConflict" #loginIdentifierConflict="ngModel"
                   ngControl ngModel>
@@ -22,17 +33,6 @@
                   <option>ignore</option>
                   <option>failOnSiteConflictingIdentity</option>
                   <option>failOnAnyConflictingIdentity</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="loginIdentifiers">Login Identifiers</label>
-                <select [disabled]="true" type="text" class="form-control" [(ngModel)]="form.loginIdentifiers" name="loginIdentifiers" #loginIdentifiers="ngModel"
-                  ngControl ngModel placeholder="Login Identifiers">
-                  <option value="Login Identifiers" disabled selected>Login Identifiers</option>
-                  <option>email</option>
-                  <option>username</option>
-                  <option>email, username</option>
-                  <option>providerEmail</option>
                 </select>
               </div>
               <div class="form-group">
