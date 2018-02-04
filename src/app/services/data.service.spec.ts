@@ -1,94 +1,88 @@
-import { JsonpModule, Jsonp, BaseRequestOptions, Response, ResponseOptions, Http } from "@angular/http";
-import { HttpClientModule } from '@angular/common/http';
-import { TestBed, fakeAsync, tick, inject } from '@angular/core/testing';
-import { MockBackend } from "@angular/http/testing";
+import { TestBed, inject } from '@angular/core/testing';
+import {
+  HttpClientJsonpModule,
+  HttpBackend,
+  JsonpClientBackend
+} from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+
 import { DataService } from './data.service';
 
-describe('DataService:', () => {
-
+describe('ExampleService', () => {
   let service: DataService;
-  let backend: MockBackend;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [JsonpModule, HttpClientModule],
-      providers: [
-        DataService,
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Jsonp,
-          useFactory: (backend, options) => new Jsonp(backend, options),
-          deps: [MockBackend, BaseRequestOptions]
-        }
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [DataService, { provide: JsonpClientBackend, useExisting: HttpBackend }]
     });
 
-    // Get the MockBackend
-    backend = TestBed.get(MockBackend);
-
-    // Returns a service with the MockBackend so we can test with dummy responses
     service = TestBed.get(DataService);
-
+    httpMock = TestBed.get(HttpTestingController);
   });
 
-  // General service tests
-  it('DataService should contain account APIs and credential', inject([DataService], (service: DataService) => {
-    expect(service.accounts && service.credentials).toBeTruthy();
-  }));
+  describe('getData()', () => {
+    it('should return an Observable<any>', () => {
+      const mockData = {
+        allowUnverifiedLogin: false,
+        defaultLanguage: 'en',
+        loginIdentifierConflict: 'ignore',
+        loginIdentifiers: 'email',
+        preventLoginIDHarvesting: false,
+        sendAccountDeletedEmail: false,
+        sendWelcomeEmail: false,
+        verifyEmail: false,
+        verifyProviderEmail: false,
+      };
 
-  it('DataService should contain getPolicices & setPolicies methods', inject([DataService], (service: DataService) => {
-    expect(service.accounts.getPolicies && service.accounts.setPolicies).toBeTruthy();
-  }));
+      service.getData().subscribe(data => {
+        expect(data).toEqual(mockData);
+      });
 
-  it('userKey should be valid', inject([DataService], (service: DataService) => {
-    expect(service.credentials.userKey).toMatch('AJA3Cw9XcJZf');
-  }));
-
-  it('secret should be valid', inject([DataService], (service: DataService) => {
-    expect(service.credentials.secret).toMatch('1J%2BYxAY47khnuXf4GKSggLpPFBbQv8Hq');
-  }));
-
-  it('apiKey should be valid', inject([DataService], (service: DataService) => {
-    expect(service.credentials.apiKey).toMatch('3_inujb44QPskKBok5VwhYnqy40eaVrwAJXXLsqaHRI_6DCM3KHhxNXjjcFQe0PASK');
-  }));
-
-  // Http requests tests
-  it('DataService should return Data', fakeAsync(() => {
-    let response = {
-      "accountOptions": {
-        "verifyEmail": false,
-        "verifyProviderEmail": false,
-        "allowUnverifiedLogin": false,
-        "preventLoginIDHarvesting": false,
-        "sendWelcomeEmail": false,
-        "sendAccountDeletedEmail": false,
-        "defaultLanguage": "en",
-        "loginIdentifierConflict": "failOnSiteConflictingIdentity",
-        "loginIdentifiers": "email, providerEmail"
-      }
-    };
-
-    backend.connections.subscribe(connection => {
-      connection.mockRespond(new Response(<ResponseOptions>{
-        body: JSON.stringify(response)
-      }));
+      const request = httpMock.expectOne(request => request.url === service.apiGet);
+      expect(request.request.method).toBe('JSONP');
+      request.flush(mockData);
     });
+  });
 
-    service.getData();
-    tick();
+  describe('updateData()', () => {
+    it('should return an Observable<any>', () => {
+      const mockData = {
+        allowUnverifiedLogin: false,
+        defaultLanguage: 'en',
+        loginIdentifierConflict: 'ignore',
+        loginIdentifiers: 'email',
+        preventLoginIDHarvesting: false,
+        sendAccountDeletedEmail: false,
+        sendWelcomeEmail: false,
+        verifyEmail: false,
+        verifyProviderEmail: false,
+      };
 
-    expect(response.accountOptions).toBeTruthy();
-    expect(response.accountOptions.verifyEmail).toBe(false);
-    expect(response.accountOptions.verifyProviderEmail).toBe(false);
-    expect(response.accountOptions.allowUnverifiedLogin).toBe(false);
-    expect(response.accountOptions.preventLoginIDHarvesting).toBe(false);
-    expect(response.accountOptions.sendWelcomeEmail).toBe(false);
-    expect(response.accountOptions.sendAccountDeletedEmail).toBe(false);
-    expect(response.accountOptions.defaultLanguage).toBe('en');
-    expect(response.accountOptions.loginIdentifierConflict).toBe('failOnSiteConflictingIdentity');
-    expect(response.accountOptions.loginIdentifiers).toBe('email, providerEmail');
-  }));
+      service.getData().subscribe(data => {
+        expect(data).toEqual(mockData);
+      });
+
+      const request = httpMock.expectOne(request => request.url === service.apiGet);
+      expect(request.request.method).toBe('JSONP');
+      request.flush(mockData);
+    });
+  });
 });
 
 
+//     expect(response.accountOptions.verifyEmail).toBe(false);
+//     expect(response.accountOptions.verifyProviderEmail).toBe(false);
+//     expect(response.accountOptions.allowUnverifiedLogin).toBe(false);
+//     expect(response.accountOptions.preventLoginIDHarvesting).toBe(false);
+//     expect(response.accountOptions.sendWelcomeEmail).toBe(false);
+//     expect(response.accountOptions.sendAccountDeletedEmail).toBe(false);
+//     expect(response.accountOptions.defaultLanguage).toBe('en');
+//     expect(response.accountOptions.loginIdentifierConflict).toBe('failOnSiteConflictingIdentity');
+//     expect(response.accountOptions.loginIdentifiers).toBe('email, providerEmail');
+//   }));
+// });

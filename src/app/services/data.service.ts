@@ -1,26 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { AccountOptions } from '../models/AccountOptions';
 
 @Injectable()
 export class DataService {
   accounts = environment.accounts;
   credentials = environment.credentials;
 
-  accountOptions;
+  apiGet = `${this.accounts.getPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`;
+
+  apiSet;
+
+  callback = 'JSONP_CALLBACK';
 
   constructor(
     private http: HttpClient,
   ) {
+
+    console.log()
   }
 
   getData(): Observable<any> {
-    return this.http.jsonp(`${this.accounts.getPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK');
+    return this.http.jsonp(this.apiGet, this.callback);
   }
 
-  updateData(value: any): Observable<any> {
-    const accountOptions = value;
-    return this.http.jsonp(`${this.accounts.setPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&accountOptions=${accountOptions}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK');
+  updateData(accountOptions: any): Observable<any> {
+    const apiSet =`${this.accounts.setPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&accountOptions=${accountOptions}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`;
+    this.apiSet = apiSet;
+    return this.http.jsonp(this.apiSet, this.callback);
   }
 }
