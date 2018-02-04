@@ -13,6 +13,7 @@ export class DataService {
   apiGet: string = `${this.accounts.getPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`;
 
   apiSet: string;
+
   callback = 'JSONP_CALLBACK';
 
   constructor(
