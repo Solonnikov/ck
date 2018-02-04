@@ -19,7 +19,7 @@ import { TypeModifier } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./redux-update.component.css']
 })
 export class ReduxUpdateComponent implements OnInit {
-  editDataForm: Observable<AccountOptions>;
+  // editDataForm: Observable<AccountOptions>;
 
   accountOptions = {
     allowUnverifiedLogin: null,
@@ -38,13 +38,13 @@ export class ReduxUpdateComponent implements OnInit {
     public router: Router,
     public flashMessagesService: FlashMessagesService
   ) {
-    this.editDataForm = ngRedux.select('editDataForm');
+    // this.editDataForm = ngRedux.select('editDataForm');
   }
 
   ngOnInit() {
-    this.ngRedux.dispatch({
-      type: GET
-    });
+    // this.ngRedux.dispatch({
+    //   type: GET
+    // });
   }
 
   onEditSubmit() {
@@ -62,6 +62,5 @@ export class ReduxUpdateComponent implements OnInit {
         verifyProviderEmail: this.accountOptions.verifyProviderEmail,
       }
     });
-    this.flashMessagesService.show('Data successfully submitted', { classes: ['alert', 'alert-success'], timeout: 4000 });
   };
 }
