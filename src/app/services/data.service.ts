@@ -10,17 +10,14 @@ export class DataService {
   accounts = environment.accounts;
   credentials = environment.credentials;
 
-  apiGet = `${this.accounts.getPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`;
+  apiGet: string = `${this.accounts.getPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`;
 
-  apiSet;
-
+  apiSet: string;
   callback = 'JSONP_CALLBACK';
 
   constructor(
     private http: HttpClient,
   ) {
-
-    console.log()
   }
 
   getData(): Observable<any> {
@@ -28,7 +25,7 @@ export class DataService {
   }
 
   updateData(accountOptions: any): Observable<any> {
-    const apiSet =`${this.accounts.setPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&accountOptions=${accountOptions}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`;
+    const apiSet = `${this.accounts.setPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&accountOptions=${accountOptions}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`;
     this.apiSet = apiSet;
     return this.http.jsonp(this.apiSet, this.callback);
   }

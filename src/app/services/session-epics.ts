@@ -31,7 +31,7 @@ export class SessionEpics {
         payload = JSON.stringify(payload);
         return this.http.jsonp(`${this.accounts.setPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&accountOptions=${payload}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK')
           .map((result: any) => {
-            if(result.statusCode === 200) {
+            if (result.statusCode === 200) {
               this.flashMessagesService.show(`${result.statusCode}`, { classes: ['alert', 'alert-success'], timeout: 3000 })
             } else {
               this.flashMessagesService.show(`${result.statusCode}`, { classes: ['alert', 'alert-danger'], timeout: 3000 })
@@ -46,7 +46,6 @@ export class SessionEpics {
           }));
       });
   }
-
 
   get = (action$: ActionsObservable<any>) => {
     return action$.ofType(GET)
