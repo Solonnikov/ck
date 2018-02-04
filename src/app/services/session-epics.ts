@@ -12,6 +12,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { environment } from '../../environments/environment';
+import { FlashMessagesService } from 'ngx-flash-messages';
 
 @Injectable()
 export class SessionEpics {
@@ -19,7 +20,8 @@ export class SessionEpics {
   credentials = environment.credentials;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    public flashMessagesService: FlashMessagesService
   ) {
   }
 
@@ -28,23 +30,30 @@ export class SessionEpics {
       .mergeMap(({ payload }) => {
         payload = JSON.stringify(payload);
         return this.http.jsonp(`${this.accounts.setPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&accountOptions=${payload}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK')
-          .map(result => ({
-            type: UPDATE_SUCCESS,
-            payload: result
-          }))
+          .map((result: any) => {
+            if (result.statusCode === 200) {
+              this.flashMessagesService.show(`${result.statusCode}`, { classes: ['alert', 'alert-success'], timeout: 3000 })
+            } else {
+              this.flashMessagesService.show(`${result.statusCode}`, { classes: ['alert', 'alert-danger'], timeout: 3000 })
+            }
+          }).map(result =>
+            ({
+              type: UPDATE_SUCCESS,
+              payload: result
+            }))
           .catch(error => Observable.of({
             type: UPDATE_ERROR
           }));
       });
   }
 
+
   get = (action$: ActionsObservable<any>) => {
     return action$.ofType(GET)
       .mergeMap(({ }) => {
         return this.http.jsonp(`${this.accounts.getPolicies}?userkey=${this.credentials.userKey}&secret=${this.credentials.secret}&apikey=${this.credentials.apiKey}&format=jsonp&callback=JSONP_CALLBACK`, 'JSONP_CALLBACK')
-          .map(result =>
-            // Loggin the actual data from server
-            (console.log('Data from server by epic middleware', result.accountOptions), {
+          .map((result: any) =>
+            ({
               type: GET_SUCCESS,
               payload: result.accountOptions
             })

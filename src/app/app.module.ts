@@ -21,6 +21,8 @@ import { SessionEpics } from './services/session-epics';
 
 import { IAppState, rootReducer, INITIAL_STATE } from './store';
 import { FormReduxComponent } from './components/form-redux/form-redux.component';
+import { ReduxUpdateComponent } from './components/redux-update/redux-update.component';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { FormReduxComponent } from './components/form-redux/form-redux.component
     NavbarComponent,
     FormComponent,
     ReadonlyComponent,
-    FormReduxComponent
+    FormReduxComponent,
+    ReduxUpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,8 @@ import { FormReduxComponent } from './components/form-redux/form-redux.component
     RouterModule.forRoot([
       { path: '', component: FormComponent },
       { path: 'readonly', component: ReadonlyComponent },
-      { path: 'redux', component: FormReduxComponent }
+      { path: 'redux-readonly', component: FormReduxComponent },
+      { path: 'redux-update', component: ReduxUpdateComponent }
     ])
   ],
   providers: [DataService, SessionEpics],

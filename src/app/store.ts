@@ -20,18 +20,19 @@ export const INITIAL_STATE: IAppState = {
 }
 
 export function rootReducer(state: IAppState = INITIAL_STATE, action): IAppState {
-  console.log(action.type, state.editDataForm);
   switch (action.type) {
     case GET: return {
       editDataForm: state.editDataForm
     }
     case GET_SUCCESS: return {
+      editDataForm:  action.payload
+    }
+    case FORM_CHANGED: return {
+      editDataForm: state.editDataForm
+    }
+    case UPDATE_SUCCESS: return {
       editDataForm: action.payload
     }
-    case FORM_CHANGED:
-      return {
-        editDataForm: state.editDataForm
-      }
     default: return state;
   }
 }
