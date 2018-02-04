@@ -1,36 +1,44 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { DataService } from './data.service';
+import { JsonpModule, Jsonp, BaseRequestOptions, Response, ResponseOptions, Http } from "@angular/http";
 import { HttpClientModule } from '@angular/common/http';
+import { TestBed, fakeAsync, tick, inject } from '@angular/core/testing';
+import { MockBackend } from "@angular/http/testing";
+import { DataService } from './data.service';
 
-describe('DataService', () => {
+describe('DataService:', () => {
+
+  let service: DataService;
+  let backend: MockBackend;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule
-      ],
-      providers: [DataService]
+      imports: [JsonpModule, HttpClientModule],
+      providers: [
+        DataService,
+        MockBackend,
+        BaseRequestOptions,
+        {
+          provide: Jsonp,
+          useFactory: (backend, options) => new Jsonp(backend, options),
+          deps: [MockBackend, BaseRequestOptions]
+        }
+      ]
     });
+
+    // Get the MockBackend
+    backend = TestBed.get(MockBackend);
+
+    // Returns a service with the MockBackend so we can test with dummy responses
+    service = TestBed.get(DataService);
+
   });
 
-  it('should be created', inject([DataService], (service: DataService) => {
-    expect(service).toBeTruthy();
-  }));
-
-  it('should contain editDataForm object', inject([DataService], (service: DataService) => {
-    expect(service.editDataForm).toBeTruthy();
-  }));
-
-  it('should contain accounts apis and credential', inject([DataService], (service: DataService) => {
+  // General service tests
+  it('DataService should contain account APIs and credential', inject([DataService], (service: DataService) => {
     expect(service.accounts && service.credentials).toBeTruthy();
   }));
 
-  it('should contain apis and credentials', inject([DataService], (service: DataService) => {
-    expect(service.accounts && service.credentials).toBeTruthy();
-  }));
-
-  it('should have getPolicices & setPolicies methods', inject([DataService], (service: DataService) => {
-    expect(service.accounts.getPolicies && service.credentials.secret).toBeTruthy();
+  it('DataService should contain getPolicices & setPolicies methods', inject([DataService], (service: DataService) => {
+    expect(service.accounts.getPolicies && service.accounts.setPolicies).toBeTruthy();
   }));
 
   it('userKey should be valid', inject([DataService], (service: DataService) => {
@@ -45,66 +53,42 @@ describe('DataService', () => {
     expect(service.credentials.apiKey).toMatch('3_inujb44QPskKBok5VwhYnqy40eaVrwAJXXLsqaHRI_6DCM3KHhxNXjjcFQe0PASK');
   }));
 
-  it('should return editDataForm object', inject([DataService], (service: DataService) => {
-    expect(service.getData()).toBeTruthy();
-  }));
+  // Http requests tests
+  it('DataService should return Data', fakeAsync(() => {
+    let response = {
+      "accountOptions": {
+        "verifyEmail": false,
+        "verifyProviderEmail": false,
+        "allowUnverifiedLogin": false,
+        "preventLoginIDHarvesting": false,
+        "sendWelcomeEmail": false,
+        "sendAccountDeletedEmail": false,
+        "defaultLanguage": "en",
+        "loginIdentifierConflict": "failOnSiteConflictingIdentity",
+        "loginIdentifiers": "email, providerEmail"
+      }
+    };
 
-  it('should update editDataForm object', inject([DataService], (service: DataService) => {
-    expect(service.editDataForm.verifyEmail).toBe(true);
-  }));
+    backend.connections.subscribe(connection => {
+      connection.mockRespond(new Response(<ResponseOptions>{
+        body: JSON.stringify(response)
+      }));
+    });
 
-  it('should be a valid object for POST', inject([DataService], (service: DataService) => {
-    expect(typeof (service.editDataForm) === 'object').toBeTruthy();
-  }));
+    service.getData();
+    tick();
 
-  // Validate input fields
-  it('allowUnverifiedLogin should equal `false` by default', inject([DataService], (service: DataService) => {
-    expect(service.editDataForm.allowUnverifiedLogin).toEqual(false);
-  }));
-
-  it('defaultLanguage should equal `en` by default', inject([DataService], (service: DataService) => {
-    expect(service.editDataForm.defaultLanguage).toEqual('en');
-  }));
-
-  it('loginIdentifiers should equal `email` by default', inject([DataService], (service: DataService) => {
-    expect(service.editDataForm.loginIdentifiers).toEqual('email');
-  }));
-
-  it('preventLoginIDHarvesting should equal `false` by default', inject([DataService], (service: DataService) => {
-    expect(service.editDataForm.preventLoginIDHarvesting).toEqual(false);
-  }));
-
-  it('sendWelcomeEmail should equal `false` by default', inject([DataService], (service: DataService) => {
-    expect(service.editDataForm.sendWelcomeEmail).toEqual(false);
-  }));
-
-  it('verifyEmail should equal `false` by default but can be set to `true`', inject([DataService], (service: DataService) => {
-    expect(service.editDataForm.verifyEmail).toEqual(true || false);
-  }));
-
-  it('verifyProviderEmail should equal `false` by default', inject([DataService], (service: DataService) => {
-    expect(service.editDataForm.verifyProviderEmail).toEqual(false);
-  }));
-
-  it('sendAccountDeletedEmail cant be true without accountDeletedEmailTemplates', inject([DataService], (service: DataService) => {
-    const isAllowed = function sendAccountDeletedEmailAllowed() {
-      return ('accountDeletedEmailTemplates' in service.editDataForm);
-    }
-    if (!isAllowed) {
-      expect(service.editDataForm.sendAccountDeletedEmail).toBeTruthy();
-    }
-  }));
-
-  it('allowUnverifiedLogin and verifyProviderEmail cant be true without verifyEmail=true', inject([DataService], (service: DataService) => {
-    const isAllowed = function verifyEmailChecked() {
-      return service.editDataForm.verifyEmail;
-    }
-    if (!isAllowed) {
-      expect(service.editDataForm.allowUnverifiedLogin).toEqual(false);
-      expect(service.editDataForm.verifyProviderEmail).toEqual(false);
-    }
+    expect(response.accountOptions).toBeTruthy();
+    expect(response.accountOptions.verifyEmail).toBe(false);
+    expect(response.accountOptions.verifyProviderEmail).toBe(false);
+    expect(response.accountOptions.allowUnverifiedLogin).toBe(false);
+    expect(response.accountOptions.preventLoginIDHarvesting).toBe(false);
+    expect(response.accountOptions.sendWelcomeEmail).toBe(false);
+    expect(response.accountOptions.sendAccountDeletedEmail).toBe(false);
+    expect(response.accountOptions.defaultLanguage).toBe('en');
+    expect(response.accountOptions.loginIdentifierConflict).toBe('failOnSiteConflictingIdentity');
+    expect(response.accountOptions.loginIdentifiers).toBe('email, providerEmail');
   }));
 });
-
 
 
